@@ -353,9 +353,9 @@ initConnection("com.mysql.jdbc.Driver", "jdbc:mysql://192.168.0.130:3306/" + sch
 ##### 直接运行源码。
 新建一个启动应用，选 MGB 下的 ShellRunner 作为启动入口
 ![](http://elsafly.oschina.io/img/MBGRunFromSourceCode.jpg)
-按下图所示，在参数一栏写：-configfile generatorConfig.xml -overwrite，选 MGB 模块
+按下图所示，在参数一栏写：-configfile generatorConfig.xml -overwrite，选 mybatis-generator-1.3.5 模块
 ![](http://elsafly.oschina.io/img/MBGRunFromSourceCodeConfig.jpg)
-接下来，用过 IDEA 的都知道如何运行或者调试了吧。
+接下来，应该知道如何运行或者调试了吧。
 
 ##### 生成 jar 包，一次生成，随处运行
 1. 将 MBG 打包成 jar 包，把该 jar 包和 mysql-connector-java-5.1.31.jar、generatorConfig.xml 一起放到项目的根目录下，在 dos 窗口，或者 IDEA 的 Terminal 窗口直接运行下面的命令。
@@ -368,6 +368,6 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.5.jar org.mybatis.generator
 按 Ctrl+Alt+Shift+s，进入项目设置界面
 
 生成 MBG jar 包第一步，配置
-![生成 MBG jar 包第一步，配置](http://elsafly.oschina.io/img/MBGToJar.jpg)
-生成 MBG jar 包第二步，生成 jar 包
-![生成 MBG jar 包第二步，生成 jar 包](http://elsafly.oschina.io/img/MBGToJarStepTwo.jpg)
+![](http://elsafly.oschina.io/img/MBGToJar.jpg)
+生成 MBG jar 包第二步，Build Artifacts...
+![](http://elsafly.oschina.io/img/MBGToJarStepTwo.jpg)

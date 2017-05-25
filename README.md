@@ -22,7 +22,7 @@
 1. [官方文档](http://www.mybatis.org/generator/)
 1. [热心网友翻译的中文版本](http://mbg.cndocs.tk/)，不过是基于 1.3.3 版本的，也还是很有参考价值的。
 
-关于 MBG 的介绍，看官网或者看热心网友汉化的版本，足够了，本文的重点是修改源代码，让 MGB 在生成的代码里，对应的类和 mapper 文件保持与对应的表名大小写不变。
+关于 MBG 的介绍，看官网或者看热心网友汉化的版本，足够了，本文的重点是修改源代码，让 MBG 在生成的代码里，对应的类和 mapper 文件保持与对应的表名大小写不变。
 
 ### 修改源码
 一共需要修改 org.mybatis.generator.api.IntrospectedTable 这个类的两个方法。需要修改的第一个方法在1522行，第二个方法，紧随其后。
@@ -350,8 +350,8 @@ initConnection("com.mysql.jdbc.Driver", "jdbc:mysql://192.168.0.130:3306/" + sch
 导入模块
 ![导入模块](http://elsafly.oschina.io/img/MBGDemoStepTwo.jpg)
 
-##### 直接运行源码。
-新建一个启动应用，选 MGB 下的 ShellRunner 作为启动入口
+##### 直接运行源码
+新建一个启动应用，选 MBG 下的 ShellRunner 作为启动入口
 ![](http://elsafly.oschina.io/img/MBGRunFromSourceCode.jpg)
 按下图所示，在参数一栏写：-configfile generatorConfig.xml -overwrite，选 mybatis-generator-1.3.5 模块
 ![](http://elsafly.oschina.io/img/MBGRunFromSourceCodeConfig.jpg)

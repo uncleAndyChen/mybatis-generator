@@ -17,9 +17,10 @@
 1. 废话少说，下面切入正题。
 
 ### 关于 MBG (MyBatis Generator)
-截至到笔者写这篇文章，最后的 Release 版本是1.3.5，下载地址：[MyBatis Generator Release 1.3.5](https://github.com/mybatis/generator/releases/tag/mybatis-generator-1.3.5)
-[官网文档](http://www.mybatis.org/generator/)
-[热心网友翻译的中文版本](http://mbg.cndocs.tk/)，不过是基于 1.3.3 版本的，也还是很有参考价值的。
+截至到笔者写这篇文章，最后的 Release 版本是1.3.5。
+1. 下载地址：[MyBatis Generator Release 1.3.5](https://github.com/mybatis/generator/releases/tag/mybatis-generator-1.3.5)
+1. [官方文档](http://www.mybatis.org/generator/)
+1. [热心网友翻译的中文版本](http://mbg.cndocs.tk/)，不过是基于 1.3.3 版本的，也还是很有参考价值的。
 
 关于 MBG 的介绍，看官网或者看热心网友汉化的版本，足够了，本文的重点是修改源代码，让 MGB 在生成的代码里，对应的类和 mapper 文件保持与对应的表名大小写不变。
 

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.generator.dal.mapper.ErpTradeMapper">
+  <resultMap id="BaseResultMap" type="mybatis.generator.model.entity.ErpTrade">
+    <id column="tradeID" jdbcType="INTEGER" property="tradeID" />
+    <result column="tid" jdbcType="BIGINT" property="tid" />
+    <result column="shopID" jdbcType="INTEGER" property="shopID" />
+    <result column="memberID" jdbcType="BIGINT" property="memberID" />
+    <result column="buyerNick" jdbcType="VARCHAR" property="buyerNick" />
+    <result column="sellerID" jdbcType="BIGINT" property="sellerID" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    tradeID, tid, shopID, memberID, buyerNick, sellerID
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.generator.model.entity.ErpTradeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from erptrade
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from erptrade
+    where tradeID = #{tradeID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from erptrade
+    where tradeID = #{tradeID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.generator.model.entity.ErpTradeExample">
+    delete from erptrade
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.generator.model.entity.ErpTrade">
+    <selectKey keyProperty="tradeID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into erptrade (tid, shopID, memberID, 
+      buyerNick, sellerID)
+    values (#{tid,jdbcType=BIGINT}, #{shopID,jdbcType=INTEGER}, #{memberID,jdbcType=BIGINT}, 
+      #{buyerNick,jdbcType=VARCHAR}, #{sellerID,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.generator.model.entity.ErpTrade">
+    <selectKey keyProperty="tradeID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into erptrade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="shopID != null">
+        shopID,
+      </if>
+      <if test="memberID != null">
+        memberID,
+      </if>
+      <if test="buyerNick != null">
+        buyerNick,
+      </if>
+      <if test="sellerID != null">
+        sellerID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tid != null">
+        #{tid,jdbcType=BIGINT},
+      </if>
+      <if test="shopID != null">
+        #{shopID,jdbcType=INTEGER},
+      </if>
+      <if test="memberID != null">
+        #{memberID,jdbcType=BIGINT},
+      </if>
+      <if test="buyerNick != null">
+        #{buyerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerID != null">
+        #{sellerID,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.generator.model.entity.ErpTradeExample" resultType="java.lang.Long">
+    select count(*) from erptrade
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update erptrade
+    <set>
+      <if test="record.tradeID != null">
+        tradeID = #{record.tradeID,jdbcType=INTEGER},
+      </if>
+      <if test="record.tid != null">
+        tid = #{record.tid,jdbcType=BIGINT},
+      </if>
+      <if test="record.shopID != null">
+        shopID = #{record.shopID,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberID != null">
+        memberID = #{record.memberID,jdbcType=BIGINT},
+      </if>
+      <if test="record.buyerNick != null">
+        buyerNick = #{record.buyerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellerID != null">
+        sellerID = #{record.sellerID,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update erptrade
+    set tradeID = #{record.tradeID,jdbcType=INTEGER},
+      tid = #{record.tid,jdbcType=BIGINT},
+      shopID = #{record.shopID,jdbcType=INTEGER},
+      memberID = #{record.memberID,jdbcType=BIGINT},
+      buyerNick = #{record.buyerNick,jdbcType=VARCHAR},
+      sellerID = #{record.sellerID,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.generator.model.entity.ErpTrade">
+    update erptrade
+    <set>
+      <if test="tid != null">
+        tid = #{tid,jdbcType=BIGINT},
+      </if>
+      <if test="shopID != null">
+        shopID = #{shopID,jdbcType=INTEGER},
+      </if>
+      <if test="memberID != null">
+        memberID = #{memberID,jdbcType=BIGINT},
+      </if>
+      <if test="buyerNick != null">
+        buyerNick = #{buyerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerID != null">
+        sellerID = #{sellerID,jdbcType=BIGINT},
+      </if>
+    </set>
+    where tradeID = #{tradeID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.generator.model.entity.ErpTrade">
+    update erptrade
+    set tid = #{tid,jdbcType=BIGINT},
+      shopID = #{shopID,jdbcType=INTEGER},
+      memberID = #{memberID,jdbcType=BIGINT},
+      buyerNick = #{buyerNick,jdbcType=VARCHAR},
+      sellerID = #{sellerID,jdbcType=BIGINT}
+    where tradeID = #{tradeID,jdbcType=INTEGER}
+  </update>
+</mapper>

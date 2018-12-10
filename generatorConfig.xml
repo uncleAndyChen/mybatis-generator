@@ -5,6 +5,7 @@
 <generatorConfiguration>
     <!--数据库驱动-->
     <classPathEntry location="mysql-connector-java-5.1.31.jar"/>
+    <!--<classPathEntry location="mysql-connector-java-8.0.13.jar"/>-->
     <!--<context id="DB2Tables" targetRuntime="MyBatis3">-->
     <!--如果你希望不生成和Example查询有关的内容，那么可以按照如下进行配置:-->
     <!--<context id="DB2Tables" targetRuntime="MyBatis3Impl">-->
@@ -15,19 +16,19 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!--数据库链接地址账号密码-->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.0.130:3306/mbg?useUnivalue=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;failOverReadOnly=false"
-                        userId="root" password="root">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/mbg?serverTimezone=GMT&amp;useUnivalue=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;failOverReadOnly=false"
+                        userId="root" password="RoOtPaSs">
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!--生成Model类存放位置-->
-        <javaModelGenerator targetPackage="mybatis.generator.model.entity" targetProject="mybatis.generator.model/src/main/java/">
+        <javaModelGenerator targetPackage="mybatis.generator.model.entity" targetProject="demo-domain-model/src/main/java/">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!--生成映射文件存放位置-->
-        <sqlMapGenerator targetPackage="mappers\original" targetProject="mybatis.generator.dal\src\main\resources">
+        <sqlMapGenerator targetPackage="mappers/original" targetProject="demo-domain-dal/src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!--生成Dao类存放位置
@@ -44,14 +45,13 @@
         ANNOTATEDMAPPER:基于注解的Mapper接口，不会有对应的XML映射文件
         XMLMAPPER:所有的方法都在XML中，接口调用依赖XML文件。
         -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="mybatis.generator.dal.mapper"
-                             targetProject="mybatis.generator.dal/src/main/java/">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="mybatis.generator.dal.mapper" targetProject="demo-domain-dal/src/main/java/">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名-->
         <table tableName="erpEnterpriseMember" domainObjectName="EnterpriseMember"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="memberID" sqlStatement="Mysql"/></table>
-        <table tableName="erpShopConfig" domainObjectName="ShopConfig"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="ID" sqlStatement="Mysql"/></table>
-        <table tableName="erpTrade" domainObjectName="erpTrade"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeID" sqlStatement="Mysql"/></table>
+        <table tableName="erpShopConfig" domainObjectName="ErpShopConfig"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="ID" sqlStatement="Mysql"/></table>
+        <table tableName="erpTrade" domainObjectName="ErpTrade"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeID" sqlStatement="Mysql"/></table>
     </context>
 </generatorConfiguration>
 <!--

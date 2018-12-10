@@ -1,7 +1,7 @@
 # MyBatis Generator (MBG)，修改源码以适应 MySQL 大小写敏感配置的各种情况
 ## 本文对应的项目
 - github:[https://github.com/uncleAndyChen/mybatis-generator](https://github.com/uncleAndyChen/mybatis-generator)
-- giteee:[https://gitee.com/elsafly/mybatis-generator](https://gitee.com/elsafly/mybatis-generator)
+- giteee:[https://gitee.com/uncleAndyChen/mybatis-generator](https://gitee.com/elsafly/mybatis-generator)
 
 ### 通过本项目，可以学到的知识点
 1. 可以理解使用MBG的大致流程。

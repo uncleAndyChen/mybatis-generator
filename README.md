@@ -33,13 +33,13 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ### 更新记录
 - 2018-12-11
     - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。
-    - 数据库换由8.x换到5.7.x之后，现出以下两类错误：
+    - 数据库由8.x换到5.7.x之后，现出以下两类错误：
         - 报错
         ```
         Cannot obtain primary key information from the database, generated objects may be incomplete
         ...
         ```
-        - 缺少以下接口：
+        - 生成的 mapper 缺少以下接口：
         ```
         deleteByPrimaryKey
         selectByPrimaryKey

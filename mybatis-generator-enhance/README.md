@@ -1,6 +1,4 @@
 # MyBatis Generator（MBG），写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
-项目地址：https://github.com/uncleAndyChen/mybatis-generator/mybatis-generator-enhance
-
 ## 本扩展的作用
 1. 生成的*Mapper.xml文件中的脚本，表名取MBG所需配置文件中配置的值（工程中的配置文件是：generatorConfig.xml），而不是从数据库读取到的值。
 1. 给表名添加MySQL“边界”，用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。

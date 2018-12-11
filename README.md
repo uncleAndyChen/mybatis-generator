@@ -4,8 +4,8 @@
 - gitee:  https://gitee.com/uncleAndyChen/mybatis-generator
 
 ## 子项目
-MBG扩展类：https://github.com/uncleAndyChen/mybatis-generator/mybatis-generator-enhance
-生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator/create-table-property
+- MBG扩展类：https://github.com/uncleAndyChen/mybatis-generator/mybatis-generator-enhance
+- 生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator/create-table-property
 
 ## 建议在实际工作中的运行方式 
 cmd窗口运行jar文件，可以直接用本项目根目录下的两个jar文件和配置文件，稍作修改应该就可以用了。
@@ -29,6 +29,8 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
     - 获取项目源码，用 IDEA 导入的时候，指向根目录的 pom.xml 即可。
 
 ### 更新记录
+- 2018-12-11
+    - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。
 - 2018-12-09
     - 将 MBG 版本由 1.3.5 升级至当前最新版 1.3.7。
     - 将 mybatis 由 3.4.1 升级至 3.4.6。
@@ -45,24 +47,24 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 1. unix,linux下lower_case_table_names默认值为 0 .Windows下默认值是 1 .Mac OS X下默认值是 2。
 
 参数说明
-1. `lower_case_table_names=0` 表名存储为给定的大小写。比较时：区分大小写。大小写敏感（Unix，Linux默认）。
+- `lower_case_table_names=0` 表名存储为给定的大小写。比较时：区分大小写。大小写敏感（Unix，Linux默认）。
 >　创建的库表将原样保存在磁盘上。如create database TeSt;将会创建一个TeSt的目录，create table AbCCC ...将会原样生成AbCCC.frm。SQL语句也会原样解析。
 
-1. `lower_case_table_names=1` 表名存储为小写。比较时：不区分大小写。大小写不敏感（Windows默认）。
+- `lower_case_table_names=1` 表名存储为小写。比较时：不区分大小写。大小写不敏感（Windows默认）。
 > 创建的库表时，MySQL将所有的库表名转换成小写存储在磁盘上。SQL语句同样会将库表名转换成小写。如需要查询以前创建的Test_table（生成Test_table.frm文件），即便执行select * from Test_table，也会被转换成select * from test_table，致使报错表不存在。
 
-1. `lower_case_table_names=2` 表名存储为给定的大小写。比较时：小写。
+- `lower_case_table_names=2` 表名存储为给定的大小写。比较时：小写。
 > 创建的库表将原样保存在磁盘上。但SQL语句将库表名转换成小写。
 
 ## 不适用场景
-如果开发环境、生产环境均配置成1或者2，则本文中有关大小写敏感的修改都是无意义的。
+如果开发环境、生产环境均配置成1或者2，则本文中有关大小写敏感的措施都是无意义的。
 
 但是如果分库时依赖表名替换，则又是适用的，见以下【适用场景】中的场景二。
 
 ## 适用场景
-最终目标：MBG 生成的mapper类名、xml文件名、以及xml文件中的sql脚本的表名，保持与对应表名在建表时的大小写一致。也就是，MBG生成的代码，保持大小写敏感，这样可以适应以上lower_case_table_names的三种配置值。
+最终目标：MBG 生成的xml文件中的sql脚本的表名，保持与对应表名在建表时的大小写一致，保持大小写敏感（表名可在MBG需要的配置文件中配置，以该配置为准）。这样可以适应以上lower_case_table_names的三种配置值。
 
-### 场景一
+### 适用场景一
 1. 其中有数据库服务器被设置成大小写不敏感（比如阿里云的云数据库，截至目前2018年12月9号，还不支持配置成大小写敏感），即 `lower_case_table_names=1`，且该参数不能修改。
 1. 为了统一命名规范使用驼峰式命名法，包括：数据库名、数据库表名、数据库字段名、编程语言。这样的话，可以控制`lower_case_table_names`的linux服务器，就可以将该参数设置为0，即大小写敏感。
 1. 用 MGB 生成的 Mapper 类名，以及 xml 文件中的表名，需要与创建表名时的原始大小写一致，以适应在`lower_case_table_names=0`（linux）或者`lower_case_table_names=2`（windows）的情况。
@@ -73,6 +75,97 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 
 本文要解决的问题是，数据库的库名、表名、字段名，需要保持跟 Java 的编码规范一致的场景。如果都统一成一种编码规则，比如统一用驼峰式命名法，那么，不用在两种编码习惯上切换，可以提高编码效率和减少不必要的麻烦，且继续往下看。
 
-### 场景二
-- 分表，需要对表名进行替换，如将`erpTrade`替换成`erpTrade_03`，需要将表名用\`（键盘上那一排数字键中，1左边、Tab上边、Esc下边的键）引起来。
-> 等工作不那么忙的时候，会分享我的基于MyBatis 插件分库分表项目
+### 适用场景二
+- 分表，利用MyBatis插件，根据业务规则，对表名进行动态替换。
+- 如`erpTrade`表分成了120个表，那么在某一次业务操作中，需要将`erpTrade`替换成`erpTrade_xyz`，其中`xyz`为从`001`到`120`的其中一个数字，则需要将MBG生成的xml里sql脚本中的表名用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。
+> 将会分享我的基于 MyBatis 插件分库分表项目。
+
+# 需求场景
+1. 首先，我项目的 Java 代码规范是变量命名应用驼峰式命名法（Camel-Case）。数据库表名及字段名，则用下划线命名法（即用下划线分隔不同单词）。
+1. 我用 MBG 生成的代码，通过配置可以将下划线去掉，同时将下划线后的第一个字母转为大写，这样是符合驼峰式命名法的。
+1. 但是，问题来了。我们项目前后端分离，前端调用 Restful Api，在传递的参数中难免需要以表名来定义对象，而以字段名作为对象的属性来传递参数，而 Java 写的 Api 在接收参数时，是用 Pojo 来跟前端传的参数匹配的。
+1. 这样有两个问题，前端在传参数的时候需要将表名和字段名由下划线命名法转为驼峰式命名法，Java 代码也以同样的方式定义对应的类名以及属性字段，在这个过程中，容易出错，相对直接 copy 表名及字段名，需要做额外的工作，而且前后端都有。
+1. 如果数据库表名和字段名本身就是驼峰式命名法的话，写代码的时候直接 copy 表名或字段名，这样既不容易出错，还能节省时间。说干就干，改！表名及字段名遵循驼峰式命名法。
+1. 这样做的目的无非是让大家能偷偷懒，还减少出错的概率，同时也轻松的达到了统一代码规范的目的。
+1. 在windows环境下，如果遇到`lower_case_table_names=1`或者该参数未配置（未配置的时候默认为1），运行MBG，生成的sql脚本，全是小写，需要花费额外时间来解决环境问题。
+1. 为了一劳永逸，有了本文和对应的项目。
+1. 随着业务发展，到了需要分库分表的时候，本文所解决的问题，更是不可或缺。
+
+## 生成表配置信息的 Java 工具类
+MBG 基于一个 xml 配置文件，在这个配置文件里，有跟表相关的配置，为了达到我的需求，需要一张表对应一行配置信息，所以，我写了一个类来自动生成，这样，在增减表，或者别的项目里面，可以简单的运行这个类来生成，减少手工劳动。
+
+更详细的，请看：https://github.com/uncleAndyChen/mybatis-generator/create-table-property
+
+MBG需要的配置文件比较全面的，在工作中实际用到的文件内容如下：
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--数据库驱动-->
+    <classPathEntry location="mysql-connector-java-5.1.31.jar"/>
+    <!--<context id="DB2Tables" targetRuntime="MyBatis3">-->
+    <!--如果你希望不生成和Example查询有关的内容，那么可以按照如下进行配置:-->
+    <!--<context id="DB2Tables" targetRuntime="MyBatis3Impl">-->
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+    <!--<context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">-->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--数据库链接地址账号密码-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.0.130:3306/mbg?useUnivalue=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;failOverReadOnly=false"
+                        userId="root" password="root">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!--生成Model类存放位置-->
+        <javaModelGenerator targetPackage="mybatis.generator.model.entity" targetProject="mybatis.generator.model/src/main/java/">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--生成映射文件存放位置-->
+        <sqlMapGenerator targetPackage="mappers\original" targetProject="mybatis.generator.dal\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--生成Dao类存放位置
+        当type=XMLMAPPER时，会生成一个XXX.xml文件内有各种sql语句，是mapper的实现。
+        当type=ANNOTATEDMAPPER时，会直接在mapper接口上添加注释。
+        -->
+        <!--
+        http://blog.csdn.net/qq_27376871/article/details/51360638
+        MyBatis3:
+        ANNOTATEDMAPPER:基于注解的Mapper接口，不会有对应的XML映射文件
+        MIXEDMAPPER:XML和注解的混合形式，(上面这种情况中的)SqlProvider注解方法会被XML替代。
+        XMLMAPPER:所有的方法都在XML中，接口调用依赖XML文件。
+        MyBatis3Simple:
+        ANNOTATEDMAPPER:基于注解的Mapper接口，不会有对应的XML映射文件
+        XMLMAPPER:所有的方法都在XML中，接口调用依赖XML文件。
+        -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="mybatis.generator.dal.mapper"
+                             targetProject="mybatis.generator.dal/src/main/java/">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!--生成对应表及类名-->
+        <table tableName="erpEnterpriseMember" domainObjectName="EnterpriseMember"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="memberID" sqlStatement="Mysql"/></table>
+        <table tableName="erpShopConfig" domainObjectName="ShopConfig"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="ID" sqlStatement="Mysql"/></table>
+        <table tableName="erpTrade" domainObjectName="erpTrade"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeID" sqlStatement="Mysql"/></table>
+    </context>
+</generatorConfiguration>
+```
+
+## 注意事项
+1. 当表结构发生变化时，需要重新运行 MBG 生成新的代码，所以，生成的代码，不能有修改行为，否则下次重新生成后，改过的代码会被覆盖。
+1. 重新生成时，*Mapper.xml 文件会被改写错，MBG 没有重新生成该文件，而是改写，这种改写有问题，还没来得及深究。
+1. 针对第2点的问题，我的解决办法是，重新生成前，将对应的 *Mapper.xml 删掉。如果只生成一张表的代码，则只删除对应的 mapper 文件即可，Pojo 文件重新生成后是正确的，不用管。
+1. 也可以用下面的脚本简单粗暴的删除全部 xml 文件。反正会重新生成，如果文件内容跟原来一致，不会产生新的 svn/git 提交。需要注意的是，下面的脚本我是在 idea 的 Terminal 窗口执行的，这里的命令语法请保持 linux 风格。这样更省事儿，推荐这种方案，这样不用每次变更某一张表的时候找到对应的表配置，也不用单独去删除对应的 mapper.xml 文件，只要把所有表的配置都操持有效（即不要注释掉）就行，省时省力！
+```
+# 注意：*Mapper.xml 文件，每次重新生成都需要先删除，否则部分内容会重复生成，导致错误
+del/f/s/q C:\workspace\mbg\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\original\*.*
+del/f/s/q C:\workspace\mbg\mybatis-generator\demo-domain-model\src\main\java\demo\domain\model\entity\*.*
+
+del/f/s/q C:\workspace\mbg\mybatis-generator\demo-domain-dal\src\main\resources\mappers\original\*.xml
+java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
+```

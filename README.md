@@ -33,6 +33,21 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ### 更新记录
 - 2018-12-11
     - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。
+    - 数据库换由8.x换到5.7.x之后，现出以下两类错误：
+        - 报错
+        ```
+        Cannot obtain primary key information from the database, generated objects may be incomplete
+        ...
+        ```
+        - 缺少以下接口：
+        ```
+        deleteByPrimaryKey
+        selectByPrimaryKey
+        updateByPrimaryKeySelective
+        updateByPrimaryKey
+        ```
+        - 解决。将`mysql-connector-java`由高版本的8.X换成低版本的5.1.x。高版本8.x的驱动连接8.x数据库是正常的，但是换成低版本的数据库5.7.x版本，就会有问题。[参考](https://blog.csdn.net/jpf254/article/details/79571396)
+
 - 2018-12-09
     - 将 MBG 版本由 1.3.5 升级至当前最新版 1.3.7。
     - 将 mybatis 由 3.4.1 升级至 3.4.6。
@@ -64,7 +79,9 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 但是如果分库时依赖表名替换，则又是适用的，见以下【适用场景】中的场景二。
 
 ## 适用场景
-最终目标：MBG 生成的xml文件中的sql脚本的表名，保持与对应表名在建表时的大小写一致，保持大小写敏感（表名可在MBG需要的配置文件中配置，以该配置为准）。这样可以适应以上lower_case_table_names的三种配置值。
+最终目标：MBG 生成的xml文件中的sql脚本的表名，保持与对应表名在建表时的大小写一致，保持大小写敏感（表名可在MBG需要的配置文件中配置，以该配置为准）。这样可以适应以上`lower_case_table_names`的三种配置值。
+
+**为了达到以上目标，[运行生成表配置内容的项目](https://github.com/uncleAndyChen/mybatis-generator/tree/master/create-table-property)，一定要连接参数`lower_case_table_names`配置为0或者2的数据库服务器**，并且是配置为0或者2之后才创建的数据表，否则，生成的表配置内容的表名，是以全部小写为基准的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时连接的数据库服务器的`lower_case_table_names`配置值，对生成结果没有影响。
 
 ### 适用场景一
 1. 其中有数据库服务器被设置成大小写不敏感（比如阿里云的云数据库，截至目前2018年12月9号，还不支持配置成大小写敏感），即 `lower_case_table_names=1`，且该参数不能修改。

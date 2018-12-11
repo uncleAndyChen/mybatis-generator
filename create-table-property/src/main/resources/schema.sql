@@ -43,3 +43,35 @@ create table erpShopConfig
    modified             int,
    primary key (ID)
 );
+
+drop table if exists erpTradeJsonFormat;
+create table erpTradeJsonFormat
+(
+   tradeJFID            int not null auto_increment  comment '',
+   tid                  bigint  comment '交易编号 (父订单的交易编号)',
+   shopID               int  comment '',
+   syncTradeType        int  comment '订单同步方式: 1.rds 2.api',
+   sellerID             bigint  comment '店铺用户，主旺旺 ID',
+   sellerNickname       varchar(150)  comment '商家昵称',
+   tradeBody            MEDIUMTEXT  comment '订单Json格式',
+   created              int  comment '',
+   modified             int  comment '',
+   primary key (tradeJFID)
+);
+
+drop table if exists crmOrderNotGoodRate;
+create table crmOrderNotGoodRate
+(
+   orderNGRID           int not null auto_increment  comment '',
+   shopID               int  comment '',
+   sellerID             bigint  comment '店铺用户，平台ID，在淘宝是 主旺旺 ID',
+   memberID             bigint  comment '会员ID',
+   tid                  bigint(20) not null  comment '交易编号 (父订单的交易编号)',
+   oid                  bigint(20) not null default 0  comment '子订单编号',
+   numIid               bigint(20) default 0  comment '商品数字ID',
+   buyerRateContent     national varchar(500)  comment '评价内容,最大长度:500个汉字',
+   buyerRateResult      int(11) default 1  comment '评价结果,1.good(好评), 2.neutral(中评), 3.bad(差评)',
+   buyerRateCreated     int(11) default 0  comment '评价创建时间',
+   created              int(11) default 0  comment '记录创建时间',
+   primary key (orderNGRID)
+);

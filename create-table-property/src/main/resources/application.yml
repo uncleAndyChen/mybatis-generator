@@ -1,6 +1,6 @@
 database:
-  driverClassName: com.mysql.cj.jdbc.Driver
-  databaseUrl: jdbc:mysql://localhost:3306/${database.schemaName}?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&socketTimeout=20000
+  driverClassName: com.mysql.jdbc.Driver
+  databaseUrl: jdbc:mysql://localhost:3306/${database.schemaName}?useSSL=false&serverTimezone=GMT&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&socketTimeout=20000
   schemaName: mbg
   username: root
   password: RoOtPaSs

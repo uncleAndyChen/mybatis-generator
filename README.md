@@ -3,9 +3,11 @@
 - github: https://github.com/uncleAndyChen/mybatis-generator
 - gitee:  https://gitee.com/uncleAndyChen/mybatis-generator
 
+如果觉得不错，欢迎star以表支持。
+
 ## 子项目
-- MBG扩展类：https://github.com/uncleAndyChen/mybatis-generator/mybatis-generator-enhance
-- 生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator/create-table-property
+- MBG扩展类：https://github.com/uncleAndyChen/mybatis-generator/tree/master/mybatis-generator-enhance
+- 生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator/tree/master/create-table-property
 
 ## 建议在实际工作中的运行方式 
 cmd窗口运行jar文件，可以直接用本项目根目录下的两个jar文件和配置文件，稍作修改应该就可以用了。
@@ -94,7 +96,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ## 生成表配置信息的 Java 工具类
 MBG 基于一个 xml 配置文件，在这个配置文件里，有跟表相关的配置，为了达到我的需求，需要一张表对应一行配置信息，所以，我写了一个类来自动生成，这样，在增减表，或者别的项目里面，可以简单的运行这个类来生成，减少手工劳动。
 
-更详细的，请看：https://github.com/uncleAndyChen/mybatis-generator/create-table-property
+更详细的，请看：https://github.com/uncleAndyChen/mybatis-generator/tree/master/create-table-property
 
 MBG需要的配置文件比较全面的，在工作中实际用到的文件内容如下：
 ```xml

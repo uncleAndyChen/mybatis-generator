@@ -1,7 +1,22 @@
-# MyBatis Generator (MBG)，修改源码以适应 MySQL 大小写敏感配置的各种情况
-## 本文对应的项目
-- github:https://github.com/uncleAndyChen/mybatis-generator
-- giteee:https://gitee.com/uncleAndyChen/mybatis-generator
+# MyBatis Generator (MBG)，写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
+## 项目地址
+- github: https://github.com/uncleAndyChen/mybatis-generator
+- gitee:  https://gitee.com/uncleAndyChen/mybatis-generator
+
+## 子项目
+MBG扩展类：https://github.com/uncleAndyChen/mybatis-generator/mybatis-generator-enhance
+生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator/create-table-property
+
+## 建议在实际工作中的运行方式 
+cmd窗口运行jar文件，可以直接用本项目根目录下的两个jar文件和配置文件，稍作修改应该就可以用了。
+
+- 下MBG的jar包，[传送门](https://github.com/mybatis/generator/releases)，解压，找到`mybatis-generator-1.3.7.jar`备用。
+- 将本模块生成jar文件，生成的jar文件名`mybatis-generator-enhance.jar`。
+- 将两个jar文件以及配置文件放到model与dal项目所在的目录下，在 cmd 窗口执行：
+```
+java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
+```
+> 这里通过 -cp 指定需要用到的所有jar包，用分号隔开，这样在运行的时候才能找到相应的类。
 
 ### 通过本项目，可以学到的知识点
 1. 可以理解使用MBG的大致流程。
@@ -23,7 +38,7 @@
     - 重命名model与dal模块名，更易于理解。
     - 在根目录添加 pom.xml，方便 IDEA 通过该文件直接导入。
 
-## 先科普一下 lower_case_table_names 参数 
+## 先了解一下 lower_case_table_names 参数 
 官方文档：[Identifier Case Sensitivity](https://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html)
 
 1. lower_case_table_names是mysql一个大小写敏感设置的属性，此参数不可以动态修改，必须重启数据库。
@@ -59,5 +74,5 @@
 本文要解决的问题是，数据库的库名、表名、字段名，需要保持跟 Java 的编码规范一致的场景。如果都统一成一种编码规则，比如统一用驼峰式命名法，那么，不用在两种编码习惯上切换，可以提高编码效率和减少不必要的麻烦，且继续往下看。
 
 ### 场景二
-- 分库时依赖表名替换，需要将表名用`\``（1左边的键）引起来。
+- 分表，需要对表名进行替换，如将`erpTrade`替换成`erpTrade_03`，需要将表名用\`（键盘上那一排数字键中，1左边、Tab上边、Esc下边的键）引起来。
 > 等工作不那么忙的时候，会分享我的基于MyBatis 插件分库分表项目

@@ -1,3 +1,9 @@
+# 连接MySQL生成MBG需要的表配置信息
+**运行本工程生成表配置内容，一定要连接参数`lower_case_table_names`配置为0或者2的数据库服务器**，并且是配置为0或者2之后才创建的数据表，否则，生成的表配置内容的表名，是以全部小写为基准的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时连接的数据库服务器的`lower_case_table_names`配置值，对生成结果没有影响。
+
+## 示例数据库建表脚本
+可以直接导入`resources/schema.sql`运行本示例进行测试。数据库表没有任何业务逻辑，仅作为示例。
+```sql
 create schema if not exists mbg default character set utf8;
 
 use mbg;

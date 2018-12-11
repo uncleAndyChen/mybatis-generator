@@ -1,9 +1,3 @@
-# 连接MySQL生成MBG需要的表配置信息
-**运行本工程生成表配置内容，一定要连接参数`lower_case_table_names`配置为0或者2的数据库服务器**，并且是配置为0或者2之后才创建的数据表，否则，生成的表配置内容的表名，是以全部小写为基准的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时连接的数据库服务器的`lower_case_table_names`配置值，对生成结果没有影响。
-
-## 示例数据库建表脚本
-可以直接导入`resources/schema.sql`运行本示例进行测试。数据库表没有任何业务逻辑，仅作为示例。
-```sql
 create schema if not exists mbg default character set utf8;
 
 use mbg;
@@ -48,6 +42,38 @@ create table erpShopConfig
    created              int,
    modified             int,
    primary key (ID)
+);
+
+drop table if exists erpTradeJsonFormat;
+create table erpTradeJsonFormat
+(
+   tradeJFID            int not null auto_increment  comment '',
+   tid                  bigint  comment '交易编号 (父订单的交易编号)',
+   shopID               int  comment '',
+   syncTradeType        int  comment '订单同步方式: 1.rds 2.api',
+   sellerID             bigint  comment '店铺用户，主旺旺 ID',
+   sellerNickname       varchar(150)  comment '商家昵称',
+   tradeBody            MEDIUMTEXT  comment '订单Json格式',
+   created              int  comment '',
+   modified             int  comment '',
+   primary key (tradeJFID)
+);
+
+drop table if exists crmOrderNotGoodRate;
+create table crmOrderNotGoodRate
+(
+   orderNGRID           int not null auto_increment  comment '',
+   shopID               int  comment '',
+   sellerID             bigint  comment '店铺用户，平台ID，在淘宝是 主旺旺 ID',
+   memberID             bigint  comment '会员ID',
+   tid                  bigint(20) not null  comment '交易编号 (父订单的交易编号)',
+   oid                  bigint(20) not null default 0  comment '子订单编号',
+   numIid               bigint(20) default 0  comment '商品数字ID',
+   buyerRateContent     national varchar(500)  comment '评价内容,最大长度:500个汉字',
+   buyerRateResult      int(11) default 1  comment '评价结果,1.good(好评), 2.neutral(中评), 3.bad(差评)',
+   buyerRateCreated     int(11) default 0  comment '评价创建时间',
+   created              int(11) default 0  comment '记录创建时间',
+   primary key (orderNGRID)
 );
 ```
 

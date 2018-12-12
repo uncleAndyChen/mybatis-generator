@@ -19,7 +19,7 @@
 1. 数据库驱动`mysql-connector-java 8.0.13`连接数据库`MySQL 8.0.11`，对应`driverClassName: com.mysql.cj.jdbc.Driver`
 1. 数据库驱动`mysql-connector-java 5.1.29`连接数据库`MySQL 5.7.23`，对应`driverClassName: com.mysql.jdbc.Driver`
 
-本项目的MBG扩展类工程，数据库驱动版本，使用的是当前最新的`mysql-connector-java 8.0.13`，仅支持连接高版本MySQL 8.x。
+本工程的数据库驱动版本，使用的是当前最新的`mysql-connector-java 8.0.13`，仅支持连接高版本MySQL 8.x。
 
 如果要在`MySQL 5.7.x`下运行，只需要修改以下两个地方（注意是5.7.x，其它5.x版本没测试）：
 1. 修改pom.xml中`mysql-connector.version`，改为低版本`5.1.39`。

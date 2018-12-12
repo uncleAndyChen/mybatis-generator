@@ -33,7 +33,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ### 更新记录
 - 2018-12-12
     - 11号的修改，仅在 MySQL 5.7.x 下测试通过。在 MySQL 8.0.11 下，由于驱动版本低导致连接数据库失败，所以，改回支持最新版的 8.x。
-    - 增加在 MySQL 5.7.x 下运行该如何操作的说明，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.cj.jdbc.Driver`改为`com.mysql.jdbc.Driver`了。
+    - 增加在 MySQL 5.7.x 下运行该如何操作的说明，相应说明在子项目下。总体来说，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.cj.jdbc.Driver`改为`com.mysql.jdbc.Driver`了。
     - 将支持 MySQL 5.7.x 的 `mybatis-generator-enhance.jar` 改名为 `mybatis-generator-enhance-mysql-v5.7.x.jar`，同时增加支持 MySQL 8.x 的包 `mybatis-generator-enhance-mysql-v8.x.jar`。
 - 2018-12-11
     - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。

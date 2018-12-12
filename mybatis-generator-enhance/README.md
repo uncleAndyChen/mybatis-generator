@@ -1,12 +1,12 @@
 # MyBatis Generator（MBG），写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
 ## 数据库版本问题
 用高版本的数据库驱动`mysql-connector-java 8.0.13`连接低版本数据库`MySQL 5.7.23`，会有以下问题：
-    - 报错
+1. 报错
     ```
     Cannot obtain primary key information from the database, generated objects may be incomplete
     ...
     ```
-    - 生成的 mapper 缺少以下接口：
+1. 生成的 mapper 缺少以下接口：
     ```
     deleteByPrimaryKey
     selectByPrimaryKey

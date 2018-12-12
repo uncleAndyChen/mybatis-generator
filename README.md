@@ -31,6 +31,10 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
     - 获取项目源码，用 IDEA 导入的时候，指向根目录的 pom.xml 即可。
 
 ### 更新记录
+- 2018-12-12
+    - 11号的修改，仅在 MySQL 5.7.x 下测试通过。在 MySQL 8.0.11 下，由于驱动版本低导致连接数据库失败，所以，改回支持最新版的 8.x。
+    - 增加在 MySQL 5.7.x 下运行该如何操作的说明，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.cj.jdbc.Driver`改为`com.mysql.jdbc.Driver`了。
+    - 将支持 MySQL 5.7.x 的 `mybatis-generator-enhance.jar` 改名为 `mybatis-generator-enhance-mysql-v5.7.x.jar`，同时增加支持 MySQL 8.x 的包 `mybatis-generator-enhance-mysql-v8.x.jar`。
 - 2018-12-11
     - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。
     - 数据库由8.x换到5.7.x之后，现出以下两类错误：
@@ -47,7 +51,6 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
         updateByPrimaryKey
         ```
         - 解决。将`mysql-connector-java`由高版本的8.X换成低版本的5.1.x。高版本8.x的驱动连接8.x数据库是正常的，但是换成低版本的数据库5.7.x版本，就会有问题。[参考](https://blog.csdn.net/jpf254/article/details/79571396)
-
 - 2018-12-09
     - 将 MBG 版本由 1.3.5 升级至当前最新版 1.3.7。
     - 将 mybatis 由 3.4.1 升级至 3.4.6。
@@ -177,14 +180,19 @@ MBG需要的配置文件比较全面的，在工作中实际用到的文件内�
 
 ## 注意事项
 1. 当表结构发生变化时，需要重新运行 MBG 生成新的代码，所以，生成的代码，不能有修改行为，否则下次重新生成后，改过的代码会被覆盖。
-1. 重新生成时，*Mapper.xml 文件会被改写错，MBG 没有重新生成该文件，而是改写，这种改写有问题，还没来得及深究。
-1. 针对第2点的问题，我的解决办法是，重新生成前，将对应的 *Mapper.xml 删掉。如果只生成一张表的代码，则只删除对应的 mapper 文件即可，Pojo 文件重新生成后是正确的，不用管。
-1. 也可以用下面的脚本简单粗暴的删除全部 xml 文件。反正会重新生成，如果文件内容跟原来一致，不会产生新的 svn/git 提交。需要注意的是，下面的脚本我是在 idea 的 Terminal 窗口执行的，这里的命令语法请保持 linux 风格。这样更省事儿，推荐这种方案，这样不用每次变更某一张表的时候找到对应的表配置，也不用单独去删除对应的 mapper.xml 文件，只要把所有表的配置都操持有效（即不要注释掉）就行，省时省力！
+1. 重新生成时，*Mapper.xml 文件会被追加内容，而不是重新生成该文件，所以是有问题的，应对方法就是每次重新生成之前将旧的文件删除。
+1. 下面的脚本在window下测试通过，删除脚本和生成脚本一起执行即可。重新生成之后，如果文件内容跟原来一致，文件会被认为无修改。
+1. 需要注意的是，如果执行删除全部文件操作，需要保证所有表的配置保持与数据库同步，表配置相当重要，有则生成。
 ```
-# 注意：*Mapper.xml 文件，每次重新生成都需要先删除，否则部分内容会重复生成，导致错误
-del/f/s/q C:\workspace\mbg\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\original\*.*
-del/f/s/q C:\workspace\mbg\mybatis-generator\demo-domain-model\src\main\java\demo\domain\model\entity\*.*
+# 注意：*Mapper.xml 文件，每次重新生成都需要先删除，否则部分内容会重复生成，导致错误，版本1.3.5以及现在最新版1.3.7均有此问题。
+# 执行之前请确保文件路径是正确的。
 
-del/f/s/q C:\workspace\mbg\mybatis-generator\demo-domain-dal\src\main\resources\mappers\original\*.xml
-java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
+del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\original\*.*
+del/f/s/q C:\workspace\mybatis-generator\demo-domain-model\src\main\java\demo\domain\model\entity\*.*
+
+del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\resources\mappers\original\*.xml
+java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance-mysql-v8.x.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
+
+# 如果 mysql 用的是5.7.x，先将本文档中的 com.mysql.cj.jdbc.Driver 改为 com.mysql.jdbc.Driver，然后执行下面的脚本，如果用的是mysql 8.x，则不用修改直接执行上面一行脚本
+java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance-mysql-v5.7.x.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
 ```

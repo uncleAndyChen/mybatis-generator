@@ -1,5 +1,5 @@
 database:
-  driverClassName: com.mysql.jdbc.Driver
+  driverClassName: com.mysql.cj.jdbc.Driver
   databaseUrl: jdbc:mysql://localhost:3306/${database.schemaName}?useSSL=false&serverTimezone=GMT&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&socketTimeout=20000
   schemaName: mbg
   username: root

@@ -1,4 +1,11 @@
 # MyBatis Generator（MBG），写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
+## 数据库版本
+当前配置在`MySQL 8.0.11`下测试通过，不支持`MySQL 5.x`。
+
+如果要在`MySQL 5.7.x`下运行，只需要修改以下两个地方（注意是5.7.x，其它版本没测试）：
+1. 修改pom.xml中`mysql-connector.version`，改为低版本`5.1.39`。
+1. 本项目的执行，依赖根目录下的`generatorConfig.xml`文件，将其中`driverClass`，由`com.mysql.cj.jdbc.Driver`改为`com.mysql.jdbc.Driver`。
+
 ## 本扩展的作用
 1. 生成的*Mapper.xml文件中的脚本，表名取MBG所需配置文件中配置的值（工程中的配置文件是：generatorConfig.xml），而不是从数据库读取到的值。
 1. 给表名添加MySQL“边界”，用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。

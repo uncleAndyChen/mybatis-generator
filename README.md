@@ -196,3 +196,15 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 # 如果 mysql 用的是5.7.x，先将本文档中的 com.mysql.cj.jdbc.Driver 改为 com.mysql.jdbc.Driver，然后执行下面的脚本，如果用的是mysql 8.x，则不用修改直接执行上面一行脚本
 java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance-mysql-v5.7.x.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
 ```
+
+# 经验
+如果库里有一张 user，在用 MBG 生成代码文件的时候，可能会遇到类似如下的提示信息：
+```
+Table Configuration user matched more than one table (forTest..user,mysql..user,xunwu..user,bbs..user)
+Column userId, specified as an identity column in table user, does not exist in the table.
+Column userId, specified as an identity column in table user, does not exist in the table.
+Column userId, specified as an identity column in table user, does not exist in the table.
+```
+意思是，在多个库里都存在 user 表，而其中有三个库中的 user 表不存在 userId 这个字段。
+
+所以，在作业务表设计的时候，最好给所有表名加上能区别业务的前缀，这样可以有效避免与其它库的表名冲突，这样做不光是为了适应 MBG，在做业务开发的时候同样会带来好处。在做类设计的时候，适当的添加前缀或者后缀，也能让人一下子知道类的作用，这需要在实际工作中才能体会到。

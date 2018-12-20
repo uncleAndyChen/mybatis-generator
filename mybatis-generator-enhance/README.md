@@ -1,8 +1,27 @@
 # MyBatis Generator（MBG），写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
-## 数据库版本
-当前配置在`MySQL 8.0.11`下测试通过，不支持`MySQL 5.x`。
+## MySQL 数据库驱动版本与数据库版本问题
+用高版本的数据库驱动`mysql-connector-java 8.0.13`连接低版本数据库`MySQL 5.7.23`，会有以下问题：
+1. 报错
+    ```
+    Cannot obtain primary key information from the database, generated objects may be incomplete
+    ...
+    ```
+1. 生成的 mapper 缺少以下接口：
+    ```
+    deleteByPrimaryKey
+    selectByPrimaryKey
+    updateByPrimaryKeySelective
+    updateByPrimaryKey
+    ```
 
-如果要在`MySQL 5.7.x`下运行，只需要修改以下两个地方（注意是5.7.x，其它版本没测试）：
+### 解决
+数据库驱动与数据库版本匹配即可，作者在以下两个版本（5.x与8.x）测试通过：
+1. 数据库驱动`mysql-connector-java 8.0.13`连接数据库`MySQL 8.0.11`，对应`driverClassName: com.mysql.cj.jdbc.Driver`
+1. 数据库驱动`mysql-connector-java 5.1.29`连接数据库`MySQL 5.7.23`，对应`driverClassName: com.mysql.jdbc.Driver`
+
+本工程的数据库驱动版本，使用的是当前最新的`mysql-connector-java 8.0.13`，仅支持连接高版本MySQL 8.x。
+
+如果要在`MySQL 5.7.x`下运行，只需要修改以下两个地方（注意是5.7.x，其它5.x版本没测试）：
 1. 修改pom.xml中`mysql-connector.version`，改为低版本`5.1.39`。
 1. 本项目的执行，依赖根目录下的`generatorConfig.xml`文件，将其中`driverClass`，由`com.mysql.cj.jdbc.Driver`改为`com.mysql.jdbc.Driver`。
 

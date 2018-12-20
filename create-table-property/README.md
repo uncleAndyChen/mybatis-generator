@@ -2,11 +2,7 @@
 **运行本工程生成表配置内容，一定要连接参数`lower_case_table_names`配置为0或者2的数据库服务器**，并且是配置为0或者2之后才创建的数据表，否则，生成的表配置内容的表名，是以全部小写为基准的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时连接的数据库服务器的`lower_case_table_names`配置值，对生成结果没有影响。
 
 ## 数据库版本
-当前配置在`MySQL 8.0.11`下测试通过，不支持`MySQL 5.x`。
-
-如果要在`MySQL 5.7.x`下运行，只需要修改以下两个地方（注意是5.7.x，其它版本没测试）：
-1. 修改pom.xml中`mysql-connector.version`，改为低版本`5.1.39`。
-1. 修改`application.yml`中`driverClassName`，由`com.mysql.cj.jdbc.Driver`改为`com.mysql.jdbc.Driver`。
+数据库驱动`mysql-connector-java 8.0.13`连接`MySQL 8.0.11`和`5.7.23`均测试通过。
 
 ## 示例数据库建表脚本
 可以直接导入`resources/schema.sql`运行本示例进行测试。数据库表没有任何业务逻辑，仅作为示例。

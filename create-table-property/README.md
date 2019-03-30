@@ -1,6 +1,12 @@
 # 连接MySQL生成MBG需要的表配置信息
 **运行本工程生成表配置内容，一定要连接参数`lower_case_table_names`配置为0或者2的数据库服务器**，并且是配置为0或者2之后才创建的数据表，否则，生成的表配置内容的表名，是以全部小写为基准的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时连接的数据库服务器的`lower_case_table_names`配置值，对生成结果没有影响。
 
+## 运行
+两种方式
+1. 本工程采用 spring boot v2.1.1 创建，可直接运行，使用 tomcat 的默认端口8080，运行之后，访问：`http://localhost:8080/getTableProperties`
+    ![](./mbg-demo.png)
+1. 运行测试`WithApplicationContextTest.getTablePropertiesTest`，从控制台查看。
+
 ## 数据库版本
 数据库驱动`mysql-connector-java 8.0.13`连接`MySQL 8.0.11`和`5.7.23`均测试通过。
 
@@ -106,11 +112,6 @@ database:
   # 是否使用原始字段名
   flagUseActualColumnNames: true
 ```
-
-## 运行
-两种方式
-1. 本工程采用 spring boot v2.1.1 创建，可直接运行，使用 tomcat 的默认端口8080，运行之后，访问：http://localhost:8080/getTableProperties
-1. 运行测试`WithApplicationContextTest.getTablePropertiesTest`，从控制台查看。
 
 ## 生成的表配置信息，长什么样？
 象下面这样

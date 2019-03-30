@@ -1,4 +1,10 @@
 # MyBatis Generator (MBG)，写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
+## 生成表属性
+两种方式
+1. `create-table-property` 工程采用 spring boot v2.1.1 创建，可直接运行，使用 tomcat 的默认端口8080，运行之后，访问：`http://localhost:8080/getTableProperties`
+    ![](./create-table-property/mbg-demo.png)
+1. 运行测试`WithApplicationContextTest.getTablePropertiesTest`，从控制台查看。
+
 ## 项目地址
 - github: https://github.com/uncleAndyChen/mybatis-generator
 - gitee:  https://gitee.com/uncleAndyChen/mybatis-generator

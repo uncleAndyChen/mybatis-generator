@@ -7,6 +7,16 @@
     ![](./mbg-demo.png)
 1. 运行测试`WithApplicationContextTest.getTablePropertiesTest`，从控制台查看。
 
+## 生成的表配置信息，长什么样？
+象下面这样
+```xml
+<table tableName="crmOrderNotGoodRate" domainObjectName="CrmOrderNotGoodRate"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="orderNGRID" sqlStatement="Mysql"/></table>
+<table tableName="erpEnterpriseMember" domainObjectName="EnterpriseMember"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="memberID" sqlStatement="Mysql"/></table>
+<table tableName="erpShopConfig" domainObjectName="ErpShopConfig"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="ID" sqlStatement="Mysql"/></table>
+<table tableName="erpTrade" domainObjectName="ErpTrade"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeID" sqlStatement="Mysql"/></table>
+<table tableName="erpTradeJsonFormat" domainObjectName="TradeJsonFormat"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeJFID" sqlStatement="Mysql"/></table>
+```
+
 ## 数据库版本
 数据库驱动`mysql-connector-java 8.0.13`连接`MySQL 8.0.11`和`5.7.23`均测试通过。
 
@@ -111,16 +121,6 @@ database:
     - erpShopConfig
   # 是否使用原始字段名
   flagUseActualColumnNames: true
-```
-
-## 生成的表配置信息，长什么样？
-象下面这样
-```xml
-<table tableName="crmOrderNotGoodRate" domainObjectName="CrmOrderNotGoodRate"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="orderNGRID" sqlStatement="Mysql"/></table>
-<table tableName="erpEnterpriseMember" domainObjectName="EnterpriseMember"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="memberID" sqlStatement="Mysql"/></table>
-<table tableName="erpShopConfig" domainObjectName="ErpShopConfig"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="ID" sqlStatement="Mysql"/></table>
-<table tableName="erpTrade" domainObjectName="ErpTrade"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeID" sqlStatement="Mysql"/></table>
-<table tableName="erpTradeJsonFormat" domainObjectName="TradeJsonFormat"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeJFID" sqlStatement="Mysql"/></table>
 ```
 
 ## 知识点

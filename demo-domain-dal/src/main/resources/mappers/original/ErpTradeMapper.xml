@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mybatis.generator.dal.mapper.ErpTradeMapper">
-  <resultMap id="BaseResultMap" type="mybatis.generator.model.entity.ErpTrade">
+<mapper namespace="demo.domain.dal.mapper.original.ErpTradeMapper">
+  <resultMap id="BaseResultMap" type="demo.domain.model.entity.ErpTrade">
     <id column="tradeID" jdbcType="INTEGER" property="tradeID" />
     <result column="tid" jdbcType="BIGINT" property="tid" />
     <result column="shopID" jdbcType="INTEGER" property="shopID" />
@@ -70,13 +70,13 @@
   <sql id="Base_Column_List">
     tradeID, tid, shopID, memberID, buyerNick, sellerID
   </sql>
-  <select id="selectByExample" parameterType="mybatis.generator.model.entity.ErpTradeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="demo.domain.model.entity.ErpTradeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from erptrade
+    from `erpTrade`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,33 +87,33 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from erptrade
+    from `erpTrade`
     where tradeID = #{tradeID,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from erptrade
+    delete from `erpTrade`
     where tradeID = #{tradeID,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="mybatis.generator.model.entity.ErpTradeExample">
-    delete from erptrade
+  <delete id="deleteByExample" parameterType="demo.domain.model.entity.ErpTradeExample">
+    delete from `erpTrade`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="mybatis.generator.model.entity.ErpTrade">
+  <insert id="insert" parameterType="demo.domain.model.entity.ErpTrade">
     <selectKey keyProperty="tradeID" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into erptrade (tid, shopID, memberID, 
+    insert into `erpTrade` (tid, shopID, memberID, 
       buyerNick, sellerID)
     values (#{tid,jdbcType=BIGINT}, #{shopID,jdbcType=INTEGER}, #{memberID,jdbcType=BIGINT}, 
       #{buyerNick,jdbcType=VARCHAR}, #{sellerID,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="mybatis.generator.model.entity.ErpTrade">
+  <insert id="insertSelective" parameterType="demo.domain.model.entity.ErpTrade">
     <selectKey keyProperty="tradeID" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into erptrade
+    insert into `erpTrade`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="tid != null">
         tid,
@@ -149,14 +149,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="mybatis.generator.model.entity.ErpTradeExample" resultType="java.lang.Long">
-    select count(*) from erptrade
+  <select id="countByExample" parameterType="demo.domain.model.entity.ErpTradeExample" resultType="java.lang.Long">
+    select count(*) from `erpTrade`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update erptrade
+    update `erpTrade`
     <set>
       <if test="record.tradeID != null">
         tradeID = #{record.tradeID,jdbcType=INTEGER},
@@ -182,7 +182,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update erptrade
+    update `erpTrade`
     set tradeID = #{record.tradeID,jdbcType=INTEGER},
       tid = #{record.tid,jdbcType=BIGINT},
       shopID = #{record.shopID,jdbcType=INTEGER},
@@ -193,8 +193,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="mybatis.generator.model.entity.ErpTrade">
-    update erptrade
+  <update id="updateByPrimaryKeySelective" parameterType="demo.domain.model.entity.ErpTrade">
+    update `erpTrade`
     <set>
       <if test="tid != null">
         tid = #{tid,jdbcType=BIGINT},
@@ -214,8 +214,8 @@
     </set>
     where tradeID = #{tradeID,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="mybatis.generator.model.entity.ErpTrade">
-    update erptrade
+  <update id="updateByPrimaryKey" parameterType="demo.domain.model.entity.ErpTrade">
+    update `erpTrade`
     set tid = #{tid,jdbcType=BIGINT},
       shopID = #{shopID,jdbcType=INTEGER},
       memberID = #{memberID,jdbcType=BIGINT},

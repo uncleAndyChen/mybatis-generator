@@ -43,6 +43,11 @@
             <version>${mysql-connector.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>mybatis.generator</groupId>
+            <artifactId>common-lib</artifactId>
+            <version>0.0.1</version>
+        </dependency>
 
     </dependencies>
 
@@ -70,6 +75,18 @@
             <url>https://repo.spring.io/milestone</url>
             <snapshots>
                 <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
             </snapshots>
         </repository>
     </repositories>

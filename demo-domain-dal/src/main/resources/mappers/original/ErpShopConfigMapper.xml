@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mybatis.generator.dal.mapper.ErpShopConfigMapper">
-  <resultMap id="BaseResultMap" type="mybatis.generator.model.entity.ErpShopConfig">
+<mapper namespace="demo.domain.dal.mapper.original.ErpShopConfigMapper">
+  <resultMap id="BaseResultMap" type="demo.domain.model.entity.ErpShopConfig">
     <id column="ID" jdbcType="INTEGER" property="ID" />
     <result column="shopID" jdbcType="INTEGER" property="shopID" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -75,13 +75,13 @@
     ID, shopID, mobile, email, isNotifyBalanceLess, balanceLessValue, isNotifyBeforeExpire, 
     beforeDaysExpire, created, modified
   </sql>
-  <select id="selectByExample" parameterType="mybatis.generator.model.entity.ErpShopConfigExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="demo.domain.model.entity.ErpShopConfigExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from erpshopconfig
+    from `erpShopConfig`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,24 +92,24 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from erpshopconfig
+    from `erpShopConfig`
     where ID = #{ID,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from erpshopconfig
+    delete from `erpShopConfig`
     where ID = #{ID,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="mybatis.generator.model.entity.ErpShopConfigExample">
-    delete from erpshopconfig
+  <delete id="deleteByExample" parameterType="demo.domain.model.entity.ErpShopConfigExample">
+    delete from `erpShopConfig`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="mybatis.generator.model.entity.ErpShopConfig">
+  <insert id="insert" parameterType="demo.domain.model.entity.ErpShopConfig">
     <selectKey keyProperty="ID" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into erpshopconfig (shopID, mobile, email, 
+    insert into `erpShopConfig` (shopID, mobile, email, 
       isNotifyBalanceLess, balanceLessValue, 
       isNotifyBeforeExpire, beforeDaysExpire, 
       created, modified)
@@ -118,11 +118,11 @@
       #{isNotifyBeforeExpire,jdbcType=INTEGER}, #{beforeDaysExpire,jdbcType=INTEGER}, 
       #{created,jdbcType=INTEGER}, #{modified,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="mybatis.generator.model.entity.ErpShopConfig">
+  <insert id="insertSelective" parameterType="demo.domain.model.entity.ErpShopConfig">
     <selectKey keyProperty="ID" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into erpshopconfig
+    insert into `erpShopConfig`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="shopID != null">
         shopID,
@@ -182,14 +182,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="mybatis.generator.model.entity.ErpShopConfigExample" resultType="java.lang.Long">
-    select count(*) from erpshopconfig
+  <select id="countByExample" parameterType="demo.domain.model.entity.ErpShopConfigExample" resultType="java.lang.Long">
+    select count(*) from `erpShopConfig`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update erpshopconfig
+    update `erpShopConfig`
     <set>
       <if test="record.ID != null">
         ID = #{record.ID,jdbcType=INTEGER},
@@ -227,7 +227,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update erpshopconfig
+    update `erpShopConfig`
     set ID = #{record.ID,jdbcType=INTEGER},
       shopID = #{record.shopID,jdbcType=INTEGER},
       mobile = #{record.mobile,jdbcType=VARCHAR},
@@ -242,8 +242,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="mybatis.generator.model.entity.ErpShopConfig">
-    update erpshopconfig
+  <update id="updateByPrimaryKeySelective" parameterType="demo.domain.model.entity.ErpShopConfig">
+    update `erpShopConfig`
     <set>
       <if test="shopID != null">
         shopID = #{shopID,jdbcType=INTEGER},
@@ -275,8 +275,8 @@
     </set>
     where ID = #{ID,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="mybatis.generator.model.entity.ErpShopConfig">
-    update erpshopconfig
+  <update id="updateByPrimaryKey" parameterType="demo.domain.model.entity.ErpShopConfig">
+    update `erpShopConfig`
     set shopID = #{shopID,jdbcType=INTEGER},
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},

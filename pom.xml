@@ -5,15 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.mybatis.generator</groupId>
-    <artifactId>MBG</artifactId>
+    <artifactId>mybatis-generator</artifactId>
     <packaging>pom</packaging>
     <version>1.3.7</version>
 
     <modules>
-        <module>mybatis-generator-core</module>
+        <module>mybatis-generator-enhance</module>
         <module>create-table-property</module>
         <module>demo-domain-model</module>
         <module>demo-domain-dal</module>
+        <module>common-lib</module>
     </modules>
 
 </project>

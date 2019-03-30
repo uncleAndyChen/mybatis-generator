@@ -1,4 +1,9 @@
 # MyBatis Generator (MBG)，修改源码以适应 MySQL 大小写敏感配置的各种情况
+## 生成表属性
+- 运行项目：create-table-property
+- 浏览器访问 `http://localhost:8080/getTableProperties`
+![](./create-table-property/mbg-demo.png)
+
 ## 本文对应的项目
 - github:https://github.com/uncleAndyChen/mybatis-generator
 - giteee:https://gitee.com/uncleAndyChen/mybatis-generator

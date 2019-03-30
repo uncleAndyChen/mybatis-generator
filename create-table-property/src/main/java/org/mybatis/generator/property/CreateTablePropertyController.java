@@ -20,7 +20,7 @@ public class CreateTablePropertyController {
         try {
             StringBuilder sb = new StringBuilder();
 
-            sb.append("<textarea rows=\"30\" cols=\"248\">");
+            sb.append("<textarea rows=\"10\" cols=\"210\">");
             sb.append(CreateTablePropertyService.getTableProperties(databaseConfig));
             sb.append("</textarea>");
 

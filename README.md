@@ -13,6 +13,25 @@
 
 近期会去找这样的方案，敬请期待。
 
+## 2019-06-18
+针对数据库字段使用下划线命名法，生成相应实体时，使用 java 普遍使用的驼峰命名法的配置，将 create-table-property 项目的 application.yml 的配置 `flagUseActualColumnNames` 改为 false：
+```
+  # 是否使用原始字段名
+  flagUseActualColumnNames: false
+```
+
+这样，还需要在 mybatis-config.xml 做相应配置：
+```
+<configuration>
+    <settings>
+        <!-- 开启驼峰映射 ，为自定义的SQL语句服务-->
+        <!-- 设置启用数据库字段下划线映射到java对象的驼峰式命名属性，默认为false-->
+        <!-- 即从经典数据库列名 A_COLUMN 到经典Java 属性名 aColumn 的类似映射 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+</configuration>
+```
+
 # MyBatis Generator (MBG)，写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
 ## 生成表属性
 两种方式

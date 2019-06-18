@@ -13,5 +13,5 @@ database:
     - erpTrade
     - erpShopConfig
   # 是否使用原始字段名
-  flagUseActualColumnNames: true
+  flagUseActualColumnNames: false
 

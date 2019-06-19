@@ -14,6 +14,7 @@
         <!--数据库链接地址账号密码-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/mbg?useSSL=false&amp;serverTimezone=GMT&amp;useUnivalue=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;failOverReadOnly=false"
                         userId="root" password="RoOtPaSs">
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -24,7 +25,7 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!--生成映射文件存放位置-->
-        <sqlMapGenerator targetPackage="mappers/original" targetProject="demo-domain-dal/src/main/resources">
+        <sqlMapGenerator targetPackage="demo.domain.dal.mapper.xml.original" targetProject="demo-domain-dal/src/main/java/">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!--生成Dao类存放位置
@@ -41,11 +42,14 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名-->
-        <table tableName="crmOrderNotGoodRate" domainObjectName="CrmOrderNotGoodRate"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="orderNGRID" sqlStatement="Mysql"/></table>
-        <table tableName="erpEnterpriseMember" domainObjectName="EnterpriseMember"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="memberID" sqlStatement="Mysql"/></table>
-        <table tableName="erpShopConfig" domainObjectName="ErpShopConfig"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="ID" sqlStatement="Mysql"/></table>
-        <table tableName="erpTrade" domainObjectName="ErpTrade"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeID" sqlStatement="Mysql"/></table>
-        <table tableName="erpTradeJsonFormat" domainObjectName="TradeJsonFormat"><property name="useActualColumnNames" value="true"/><generatedKey identity="true" type="post" column="tradeJFID" sqlStatement="Mysql"/></table>
+        <table tableName="sys_dept" domainObjectName="SysDept"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="dept_id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_menu" domainObjectName="SysMenu"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="menu_id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_menu_action" domainObjectName="SysMenuAction"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_menu_resource" domainObjectName="SysMenuResource"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_role" domainObjectName="SysRole"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="role_id" sqlStatement="Mysql"/></table>
+        <table tableName="sys_role_menu" domainObjectName="SysRoleMenu"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/></table>
+        <table tableName="sys_user" domainObjectName="SysUser"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="user_id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_user_role" domainObjectName="SysUserRole"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/></table>
     </context>
 </generatorConfiguration>
 <!--

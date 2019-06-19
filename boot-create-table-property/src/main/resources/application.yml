@@ -1,0 +1,29 @@
+server:
+  port: 90
+spring:
+  datasource:
+    driver-class-name: ${database.driverClassName}
+    url: ${database.databaseUrl}
+    username: ${database.username}
+    password: ${database.password}
+
+database:
+  driverClassName: com.mysql.cj.jdbc.Driver
+  databaseUrl: jdbc:mysql://localhost:3306/${database.schemaName}?useSSL=false&serverTimezone=GMT&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&socketTimeout=20000
+  schemaName: mbg
+  username: root
+  password: RoOtPaSs
+  # 要保留的表名前缀
+  keepPrefix: sys
+  # 表名前缀长度，后面生成的配置会将前缀去掉，根据自己的业务适当修改即可。为 0，表示不去掉前缀。
+  tableNamePrefixCount: 0
+  # 需要保留表前缀的表名列表，这里仅仅是示例，并没有任何业务逻辑。
+  # 以下示例为列表模式
+  keepPrefixTableList:
+    - erpTrade
+    - erpShopConfig
+  # 是否使用原始字段名
+  flagUseActualColumnNames: false
+
+mybatis.config-location: classpath:mybatis-config.xml
+mybatis.mapper-locations: classpath*:demo/domain/dal/mapper/xml/original/*.xml

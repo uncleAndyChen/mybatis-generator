@@ -1,4 +1,32 @@
-# 2019-05-29 更新
+# 说明
+本项目最初想要解决数据库表名、字段名的命名法与 java 的类、属性命名法不一致带来的一系列问题。
+
+曾尝试将数据库表名、字段名也采用驼峰命名法。
+
+现在已经改成：
+- 数据库表名、字段名保持下划线命名法.
+- 使用本项目的 MyBatis Generator 增加插件生成 mapper，生成的 java POJO 保持驼峰命名法。
+- 查询数据库的 sql 语句保留原生的下划线。
+- 做到了两者命名法不一致的完善兼顾方案。
+
+已添加查询示例，不过仅仅是查询示例，没有考虑到项目架构的合理性。实际项目不会在 web 层直接调用 dal 层，会加业务层和接口层。
+
+# 运行示例
+- 安装 MySQL，执行 `boot-create-table-property/resources/schema.sql`
+- 修改 `boot-create-table-property/resources/application.yml` 中的数据库连接参数。
+- 运行启动项目：`boot-create-table-property`
+- 访问：http://localhost:90/getSysDeptList
+- 如果看到初始化的部门信息，则表示运行成功。
+
+# 自行测试
+- 添加、修改表结构。
+- 参照项目根目录下的：`generatorConfig.xml`，重新生成 mapper
+- 参照 `demo.domain.dal.service.SysDeptDalService.getSysDeptList()` 实现数据库查询方法。
+- 参照 `table.property.controller.QueryDatabaseTestController.getSysDeptList()` 运行查询测试。
+
+# 有关数据库表名、字段名使用下划线命名法还是驼峰命名法的思考
+更新时间：2019-05-29
+
 近期，又研读了一次《阿里巴巴Java开发手册（详尽版）》（[从这里可以下载](https://github.com/alibaba/p3c)），又思考了关于 MySQL 的表名、字段名的命名范围。
 
 打算在以后的新项目中完全遵循《阿里巴巴Java开发手册（详尽版）》的规范。
@@ -80,6 +108,12 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
     - 获取项目源码，用 IDEA 导入的时候，指向根目录的 pom.xml 即可。
 
 ### 更新记录
+- 2019-06-19
+    - 数据库表名、字段名应用下划线命名法，MBG 生成的 POJO 保留驼峰命名法的实践。
+        - 将之前的示例数据库的命名方式由驼峰命名法改为下划线命名法。见 `boot-create-table-property/resources/schema.sql`
+        - 请参见项目：`boot-create-table-property`
+        - 添加数据库的 PowerDesigner 文档，见 `boot-create-table-property/resources/mbg.pdm`
+        - 数据库查询示例：`demo.domain.dal.service.SysDeptDalService.getSysDeptList()`
 - 2019-06-18
     - 实现：在既保持数据库表与字段采用下划线命名法的同时，对应 POJO 又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范。
 - 2018-12-12

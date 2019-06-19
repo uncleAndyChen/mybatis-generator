@@ -11,7 +11,7 @@
 
     <modules>
         <module>mybatis-generator-enhance</module>
-        <module>create-table-property</module>
+        <module>boot-create-table-property</module>
         <module>demo-domain-model</module>
         <module>demo-domain-dal</module>
         <module>common-lib</module>

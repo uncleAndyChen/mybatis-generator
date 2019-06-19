@@ -8,6 +8,19 @@
     <artifactId>demo-domain-model</artifactId>
     <version>0.0.1</version>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <repositories>
         <repository>
             <id>maven-ali</id>

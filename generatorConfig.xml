@@ -42,14 +42,14 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名-->
-        <table tableName="sys_dept" domainObjectName="SysDept"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="dept_id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
-        <table tableName="sys_menu" domainObjectName="SysMenu"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="menu_id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
-        <table tableName="sys_menu_action" domainObjectName="SysMenuAction"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
-        <table tableName="sys_menu_resource" domainObjectName="SysMenuResource"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
-        <table tableName="sys_role" domainObjectName="SysRole"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="role_id" sqlStatement="Mysql"/></table>
-        <table tableName="sys_role_menu" domainObjectName="SysRoleMenu"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/></table>
-        <table tableName="sys_user" domainObjectName="SysUser"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="user_id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
-        <table tableName="sys_user_role" domainObjectName="SysUserRole"><property name="useActualColumnNames" value="false"/><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/></table>
+        <table tableName="sys_dept" domainObjectName="SysDept"><generatedKey identity="true" type="post" column="dept_id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_menu" domainObjectName="SysMenu"><generatedKey identity="true" type="post" column="menu_id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_menu_action" domainObjectName="SysMenuAction"><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_menu_resource" domainObjectName="SysMenuResource"><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_role" domainObjectName="SysRole"><generatedKey identity="true" type="post" column="role_id" sqlStatement="Mysql"/></table>
+        <table tableName="sys_role_menu" domainObjectName="SysRoleMenu"><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/></table>
+        <table tableName="sys_user" domainObjectName="SysUser"><generatedKey identity="true" type="post" column="user_id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>
+        <table tableName="sys_user_role" domainObjectName="SysUserRole"><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/></table>
     </context>
 </generatorConfiguration>
 <!--
@@ -58,9 +58,8 @@
 
 # 以下三行执行删除生成的所有文件
 del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\original\*.*
+del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\xml\original\*.xml
 del/f/s/q C:\workspace\mybatis-generator\demo-domain-model\src\main\java\demo\domain\model\entity\*.*
-del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\resources\mappers\original\*.xml
-
 
 # 以下语句生成 mapper，分别针对 MySQL 的两个版本，执行时请注意 MySQL 的 driverClass 值。
 

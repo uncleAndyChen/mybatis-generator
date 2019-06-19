@@ -1,4 +1,4 @@
-package table.property.controller;
+package table.property.service;
 
 import table.property.config.DatabaseConfig;
 
@@ -46,8 +46,12 @@ public class CreateTablePropertyService {
             sb.append("\"");
             sb.append(" domainObjectName=\"");
 
-            // 如果不需要去掉表名前缀，删除下面的 if 语句块即可。
-            if (!databaseConfig.getKeepPrefixTableList().contains(tableName) && !tableName.startsWith(databaseConfig.getKeepPrefix())) {
+            // 如果不需要去掉表名前缀
+            //  1. 删除下面的 if 语句块即可。
+            //  2. 或者将 tableNamePrefixCount 设置为：0
+            if (databaseConfig.getTableNamePrefixCount() > 0
+                    && !databaseConfig.getKeepPrefixTableList().contains(tableName)
+                    && (databaseConfig.getKeepPrefix().length() == 0 || !tableName.startsWith(databaseConfig.getKeepPrefix()))) {
                 tableNameForMapper = tableName.substring(databaseConfig.getTableNamePrefixCount());
             }
 
@@ -56,7 +60,8 @@ public class CreateTablePropertyService {
             if (databaseConfig.isFlagUseActualColumnNames()) {
                 sb.append("\"><property name=\"useActualColumnNames\" value=\"true\"/>");
             } else {
-                sb.append("\"><property name=\"useActualColumnNames\" value=\"false\"/>");
+                //sb.append("\"><property name=\"useActualColumnNames\" value=\"false\"/>");
+                sb.append("\">");
             }
 
             sb.append("<generatedKey identity=\"true\" type=\"post\" column=\"" + primaryKey + "\" sqlStatement=\"Mysql\"/>");

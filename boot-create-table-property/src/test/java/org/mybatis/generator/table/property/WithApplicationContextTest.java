@@ -1,6 +1,6 @@
 package org.mybatis.generator.table.property;
 
-import table.property.controller.CreateTablePropertyService;
+import table.property.service.CreateTablePropertyService;
 import table.property.config.DatabaseConfig;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

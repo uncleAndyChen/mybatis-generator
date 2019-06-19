@@ -42,7 +42,7 @@
 1. 符合面向对象设计的【开闭原则】，即通过增加代码来为软件添加新功能，而不是直接修改原有代码。这一点，MBG做得非常好，除了可以非常方便的扩展之外，还可以写各种插件以实现自己的业务需要。
 
 ## 使用自己的扩展类
-在配置文件generatorConfig.xml的context节点，配置runtime值，指向自己的扩展类，需要带包名，如本例：
+在配置文件 `generatorConfig.xml` 的 `context` 节点，配置 `targetRuntime` 值，指向自己的扩展类，需要带包名，如本例：
 ```xml
 <context id="Mysql" targetRuntime="mybatis.generator.enhance.IntrospectedTableEnhanceImpl" defaultModelType="flat">
 ```

@@ -1,6 +1,6 @@
 # 说明
 本项目最初想要解决数据库表名、字段名的命名法与 java 的类、属性命名法不一致带来的一系列问题。
-> 当然，本项目的 MBG 扩展类还做了一些事情，比如方便分表时做表名替换，更详细的，请看下面相关描述。
+> 当然，本项目的 MBG 扩展类还做了一些其他事情，比如方便分表时做表名替换，更详细的，请看下面相关描述。
 
 曾尝试将数据库表名、字段名也采用驼峰命名法。
 
@@ -275,13 +275,17 @@ MBG需要的配置文件比较全面的，在工作中实际用到的文件内�
 # 注意：*Mapper.xml 文件，每次重新生成都需要先删除，否则部分内容会重复生成，导致错误，版本1.3.5以及现在最新版1.3.7均有此问题。
 # 执行之前请确保文件路径是正确的。
 
+# 以下三行执行删除生成的所有文件
 del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\original\*.*
+del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\java\demo\domain\dal\mapper\xml\original\*.xml
 del/f/s/q C:\workspace\mybatis-generator\demo-domain-model\src\main\java\demo\domain\model\entity\*.*
 
-del/f/s/q C:\workspace\mybatis-generator\demo-domain-dal\src\main\resources\mappers\original\*.xml
+# 以下语句生成 mapper，分别针对 MySQL 的两个版本，执行时请注意 MySQL 的 driverClass 值。
+
+# 针对 MySQL v8.x，执行前，请确保本文件中 driverClass 的值为：com.mysql.cj.jdbc.Driver
 java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance-mysql-v8.x.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
 
-# 如果 mysql 用的是5.7.x，先将本文档中的 com.mysql.cj.jdbc.Driver 改为 com.mysql.jdbc.Driver，然后执行下面的脚本，如果用的是mysql 8.x，则不用修改直接执行上面一行脚本
+# 针对 MySQL v5.7.x（理论上，v5.7 以前的版本也是支持的，没测试），执行前，请确保本文件中 driverClass 的值为：com.mysql.jdbc.Driver
 java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enhance-mysql-v5.7.x.jar org.mybatis.generator.api.ShellRunner -configfile generatorConfig.xml -overwrite
 ```
 

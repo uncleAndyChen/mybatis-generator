@@ -1,30 +1,4 @@
 # MyBatis Generator（MBG），写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
-## MySQL 数据库驱动版本与数据库版本问题
-用高版本的数据库驱动`mysql-connector-java 8.0.13`连接低版本数据库`MySQL 5.7.23`，会有以下问题：
-1. 报错
-    ```
-    Cannot obtain primary key information from the database, generated objects may be incomplete
-    ...
-    ```
-1. 生成的 mapper 缺少以下接口：
-    ```
-    deleteByPrimaryKey
-    selectByPrimaryKey
-    updateByPrimaryKeySelective
-    updateByPrimaryKey
-    ```
-
-### 解决
-数据库驱动与数据库版本匹配即可，作者在以下两个版本（5.x与8.x）测试通过：
-1. 数据库驱动`mysql-connector-java 8.0.13`连接数据库`MySQL 8.0.11`，对应`driverClassName: com.mysql.cj.jdbc.Driver`
-1. 数据库驱动`mysql-connector-java 5.1.29`连接数据库`MySQL 5.7.23`，对应`driverClassName: com.mysql.jdbc.Driver`
-
-本工程的数据库驱动版本，使用的是当前最新的`mysql-connector-java 8.0.13`，仅支持连接高版本MySQL 8.x。
-
-如果要在`MySQL 5.7.x`下运行，只需要修改以下两个地方（注意是5.7.x，其它5.x版本没测试）：
-1. 修改pom.xml中`mysql-connector.version`，改为低版本`5.1.39`。
-1. 本项目的执行，依赖根目录下的`generatorConfig.xml`文件，将其中`driverClass`，由`com.mysql.cj.jdbc.Driver`改为`com.mysql.jdbc.Driver`。
-
 ## 本扩展的作用
 1. 生成的*Mapper.xml文件中的脚本，表名取MBG所需配置文件中配置的值（工程中的配置文件是：generatorConfig.xml），而不是从数据库读取到的值。
 1. 给表名添加MySQL“边界”，用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。
@@ -141,3 +115,29 @@ IntrospectedTable是MBG提供的一个比较基础的扩展类，相当于可以
 - MyBatis3Simple：org.mybatis.generator.codegen.mybatis3.IntrospectedTableMyBatis3SimpleImpl
 - Ibatis2Java2：org.mybatis.generator.codegen.ibatis2.IntrospectedTableIbatis2Java2Impl
 - Ibatis2Java5：org.mybatis.generator.codegen.ibatis2.IntrospectedTableIbatis2Java5Impl
+
+## MySQL 数据库驱动版本与数据库版本问题
+用高版本的数据库驱动`mysql-connector-java 8.0.13`连接低版本数据库`MySQL 5.7.23`，会有以下问题：
+1. 报错
+    ```
+    Cannot obtain primary key information from the database, generated objects may be incomplete
+    ...
+    ```
+1. 生成的 mapper 缺少以下接口：
+    ```
+    deleteByPrimaryKey
+    selectByPrimaryKey
+    updateByPrimaryKeySelective
+    updateByPrimaryKey
+    ```
+
+### 解决
+数据库驱动与数据库版本匹配即可，作者在以下两个版本（5.x与8.x）测试通过：
+1. 数据库驱动`mysql-connector-java 8.0.13`连接数据库`MySQL 8.0.11`，对应`driverClassName: com.mysql.cj.jdbc.Driver`
+1. 数据库驱动`mysql-connector-java 5.1.29`连接数据库`MySQL 5.7.23`，对应`driverClassName: com.mysql.jdbc.Driver`
+
+本工程的数据库驱动版本，使用的是当前最新的`mysql-connector-java 8.0.13`，仅支持连接高版本MySQL 8.x。
+
+如果要在`MySQL 5.7.x`下运行，只需要修改以下两个地方（注意是5.7.x，其它5.x版本没测试）：
+1. 修改pom.xml中`mysql-connector.version`，改为低版本`5.1.39`。
+1. 本项目的执行，依赖根目录下的`generatorConfig.xml`文件，将其中`driverClass`，由`com.mysql.cj.jdbc.Driver`改为`com.mysql.jdbc.Driver`。

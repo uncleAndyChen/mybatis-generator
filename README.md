@@ -1,6 +1,6 @@
 # 说明
 本项目最初想要解决数据库表名、字段名的命名法与 java 的类、属性命名法不一致带来的一系列问题。
-> 当然，本项目的 MBG 扩展类还做了一些其他事情，比如方便分表时做表名替换，更详细的，请看下面相关描述。
+> 当然，本项目的 MBG 扩展类还做了一些其他事情，比如方便分表时做表名替换，更详细的，请参考: https://github.com/uncleAndyChen/mybatis-generator/tree/master/mybatis-generator-enhance
 
 曾尝试将数据库表名、字段名也采用驼峰命名法。
 

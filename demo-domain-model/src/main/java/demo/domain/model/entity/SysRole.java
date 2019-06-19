@@ -3,7 +3,7 @@ package demo.domain.model.entity;
 import java.util.Date;
 
 public class SysRole {
-    private Integer roleId;
+    private Integer id;
 
     private String name;
 
@@ -21,12 +21,12 @@ public class SysRole {
 
     private Date modifiedAt;
 
-    public Integer getRoleId() {
-        return roleId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

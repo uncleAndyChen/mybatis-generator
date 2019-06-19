@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="demo.domain.dal.mapper.original.SysDeptMapper">
   <resultMap id="BaseResultMap" type="demo.domain.model.entity.SysDept">
-    <id column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="level" jdbcType="VARCHAR" property="level" />
@@ -73,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    dept_id, name, parent_id, level, sequence, status, remark, operate_ip, operator, 
-    created_at, modified_at
+    id, name, parent_id, level, sequence, status, remark, operate_ip, operator, created_at, 
+    modified_at
   </sql>
   <select id="selectByExample" parameterType="demo.domain.model.entity.SysDeptExample" resultMap="BaseResultMap">
     select
@@ -94,11 +94,11 @@
     select 
     <include refid="Base_Column_List" />
     from `sys_dept`
-    where dept_id = #{deptId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from `sys_dept`
-    where dept_id = #{deptId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="demo.domain.model.entity.SysDeptExample">
     delete from `sys_dept`
@@ -107,7 +107,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="demo.domain.model.entity.SysDept">
-    <selectKey keyProperty="deptId" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into `sys_dept` (name, parent_id, level, 
@@ -120,7 +120,7 @@
       #{modifiedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="demo.domain.model.entity.SysDept">
-    <selectKey keyProperty="deptId" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into `sys_dept`
@@ -198,8 +198,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update `sys_dept`
     <set>
-      <if test="record.deptId != null">
-        dept_id = #{record.deptId,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -238,7 +238,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update `sys_dept`
-    set dept_id = #{record.deptId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       parent_id = #{record.parentId,jdbcType=INTEGER},
       level = #{record.level,jdbcType=VARCHAR},
@@ -287,7 +287,7 @@
         modified_at = #{modifiedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where dept_id = #{deptId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="demo.domain.model.entity.SysDept">
     update `sys_dept`
@@ -301,6 +301,6 @@
       operator = #{operator,jdbcType=INTEGER},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       modified_at = #{modifiedAt,jdbcType=TIMESTAMP}
-    where dept_id = #{deptId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

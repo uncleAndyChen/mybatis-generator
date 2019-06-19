@@ -3,7 +3,7 @@ package demo.domain.model.entity;
 import java.util.Date;
 
 public class SysMenu {
-    private Integer menuId;
+    private Integer id;
 
     private String name;
 
@@ -29,12 +29,12 @@ public class SysMenu {
 
     private Date modifiedAt;
 
-    public Integer getMenuId() {
-        return menuId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setMenuId(Integer menuId) {
-        this.menuId = menuId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

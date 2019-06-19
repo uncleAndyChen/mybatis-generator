@@ -10,7 +10,7 @@ public interface SysMenuMapper {
 
     int deleteByExample(SysMenuExample example);
 
-    int deleteByPrimaryKey(Integer menuId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(SysMenu record);
 
@@ -18,7 +18,7 @@ public interface SysMenuMapper {
 
     List<SysMenu> selectByExample(SysMenuExample example);
 
-    SysMenu selectByPrimaryKey(Integer menuId);
+    SysMenu selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") SysMenu record, @Param("example") SysMenuExample example);
 

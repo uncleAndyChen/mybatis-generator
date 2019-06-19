@@ -3,7 +3,7 @@ package demo.domain.model.entity;
 import java.util.Date;
 
 public class SysDept {
-    private Integer deptId;
+    private Integer id;
 
     private String name;
 
@@ -25,12 +25,12 @@ public class SysDept {
 
     private Date modifiedAt;
 
-    public Integer getDeptId() {
-        return deptId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

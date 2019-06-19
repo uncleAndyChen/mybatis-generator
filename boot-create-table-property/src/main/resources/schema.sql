@@ -8,7 +8,7 @@ set names utf8mb4;
 /*==============================================================*/
 create table sys_dept
 (
-   dept_id              int unsigned not null auto_increment  comment '部门id',
+   id                   int unsigned not null auto_increment  comment '部门 id',
    name                 varchar(20) not null  comment '部门名称',
    parent_id            int unsigned not null default 0  comment '上级部门id',
    level                varchar(200) not null  comment '部门层级',
@@ -19,7 +19,7 @@ create table sys_dept
    operator             int unsigned not null  comment '操作者 id',
    created_at           datetime not null default CURRENT_TIMESTAMP  comment '创建时间',
    modified_at          datetime not null default CURRENT_TIMESTAMP  comment '最后一次更新时间',
-   primary key (dept_id)
+   primary key (id)
 );
 
 /*==============================================================*/
@@ -27,7 +27,7 @@ create table sys_dept
 /*==============================================================*/
 create table sys_menu
 (
-   menu_id              int unsigned not null auto_increment  comment '',
+   id                   int unsigned not null auto_increment  comment '',
    name                 varchar(50)  comment '菜单名',
    parent_id            varchar(36)  comment '菜单父id',
    icon                 varchar(255)  comment '图标，参考 ant design icon',
@@ -40,7 +40,7 @@ create table sys_menu
    operator             int unsigned not null  comment '操作者 id',
    created_at           datetime not null default CURRENT_TIMESTAMP  comment '创建时间',
    modified_at          datetime not null default CURRENT_TIMESTAMP  comment '最后一次更新时间',
-   primary key (menu_id)
+   primary key (id)
 );
 
 /*==============================================================*/
@@ -84,7 +84,7 @@ create table sys_menu_resource
 /*==============================================================*/
 create table sys_role
 (
-   role_id              int unsigned not null auto_increment  comment '角色id',
+   id                   int unsigned not null auto_increment  comment '角色 id',
    name                 varchar(20) not null  comment '角色名称',
    sequence             int unsigned not null default 0  comment '排序值',
    status               int unsigned not null default 1  comment '状态，1：可用，0：冻结',
@@ -93,7 +93,7 @@ create table sys_role
    operator             int unsigned not null  comment '操作者 id',
    created_at           datetime not null default CURRENT_TIMESTAMP  comment '创建时间',
    modified_at          datetime not null default CURRENT_TIMESTAMP  comment '最后一次更新时间',
-   primary key (role_id)
+   primary key (id)
 );
 
 /*==============================================================*/
@@ -117,12 +117,13 @@ create table sys_role_menu
 /*==============================================================*/
 create table sys_user
 (
-   user_id              int unsigned not null auto_increment  comment '用户id',
+   id                   int unsigned not null auto_increment  comment '用户 id',
    username             varchar(20) not null  comment '用户名称（登录名）',
+   password             varchar(40) not null  comment '加密后的密码',
+   password_salt        varchar(32) default '-1'  comment '用于加密用的“盐”',
    real_name            varchar(64)  comment '真实姓名',
    mobile_number        varchar(11) not null  comment '手机号',
-   email                varchar(20) not null  comment '邮箱',
-   password             varchar(40) not null  comment '加密后的密码',
+   email                varchar(100) not null  comment '邮箱',
    dept_id              int unsigned not null default 0  comment '用户所在部门的id',
    status               tinyint unsigned not null default 1  comment '状态，1：正常，0：冻结状态，2：删除',
    remark               varchar(200)  comment '备注',
@@ -130,8 +131,9 @@ create table sys_user
    operator             int unsigned not null  comment '操作者 id',
    created_at           datetime not null default CURRENT_TIMESTAMP  comment '创建时间',
    modified_at          datetime not null default CURRENT_TIMESTAMP  comment '最后一次更新时间',
-   primary key (user_id)
+   primary key (id)
 );
+
 
 /*==============================================================*/
 /* Table: sys_user_role                                         */
@@ -149,10 +151,11 @@ create table sys_user_role
 
 -- 初台化部分数据
 -- 用户表
-INSERT INTO `sys_user` (`user_id`, `username`, `real_name`, `mobile_number`, `email`, `password`, `dept_id`, `status`, `remark`, `operate_ip`, `operator`, `created_at`, `modified_at`) VALUES ('1', 'administrator', '超级管理员', '13800138000', 'andy@lovesofttech.com', '123', '1', '1', '请勿删除', '', '0', '2019-06-19', '2019-06-19');
+INSERT INTO `sys_user` (`id`, `username`, `real_name`, `mobile_number`, `email`, `password`, `password_salt`, `dept_id`, `status`, `remark`, `operate_ip`, `operator`, `created_at`, `modified_at`) VALUES
+('1', 'administrator', '超级管理员', '13800138000', 'andy@lovesofttech.com', '123', '1', '1', '1', '请勿删除', '', '0', '2019-06-19', '2019-06-19');
 
 -- 部门表
-INSERT INTO `sys_dept` (`dept_id`, `name`, `parent_id`, `level`, `sequence`, `status`, `remark`, `operate_ip`, `operator`, `created_at`, `modified_at`) VALUES
+INSERT INTO `sys_dept` (`id`, `name`, `parent_id`, `level`, `sequence`, `status`, `remark`, `operate_ip`, `operator`, `created_at`, `modified_at`) VALUES
 ('1', '技术部', '0', '1', '100', '1', '技术', '', '1', '2019-06-19', '2019-06-19'),
 ('2', '研发后端', '1', '2', '110', '1', '后端', '', '1', '2019-06-19', '2019-06-19'),
 ('3', '研发前端', '1', '2', '120', '1', '前端', '', '1', '2019-06-19', '2019-06-19'),

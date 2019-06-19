@@ -3,17 +3,19 @@ package demo.domain.model.entity;
 import java.util.Date;
 
 public class SysUser {
-    private Integer userId;
+    private Integer id;
 
     private String username;
+
+    private String password;
+
+    private String passwordSalt;
 
     private String realName;
 
     private String mobileNumber;
 
     private String email;
-
-    private String password;
 
     private Integer deptId;
 
@@ -29,12 +31,12 @@ public class SysUser {
 
     private Date modifiedAt;
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -43,6 +45,22 @@ public class SysUser {
 
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt == null ? null : passwordSalt.trim();
     }
 
     public String getRealName() {
@@ -67,14 +85,6 @@ public class SysUser {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
     }
 
     public Integer getDeptId() {

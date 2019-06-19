@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="demo.domain.dal.mapper.original.SysRoleMapper">
   <resultMap id="BaseResultMap" type="demo.domain.model.entity.SysRole">
-    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sequence" jdbcType="INTEGER" property="sequence" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    role_id, name, sequence, status, remark, operate_ip, operator, created_at, modified_at
+    id, name, sequence, status, remark, operate_ip, operator, created_at, modified_at
   </sql>
   <select id="selectByExample" parameterType="demo.domain.model.entity.SysRoleExample" resultMap="BaseResultMap">
     select
@@ -91,11 +91,11 @@
     select 
     <include refid="Base_Column_List" />
     from `sys_role`
-    where role_id = #{roleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from `sys_role`
-    where role_id = #{roleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="demo.domain.model.entity.SysRoleExample">
     delete from `sys_role`
@@ -104,7 +104,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="demo.domain.model.entity.SysRole">
-    <selectKey keyProperty="roleId" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into `sys_role` (name, sequence, status, 
@@ -115,7 +115,7 @@
       #{createdAt,jdbcType=TIMESTAMP}, #{modifiedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="demo.domain.model.entity.SysRole">
-    <selectKey keyProperty="roleId" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into `sys_role`
@@ -181,8 +181,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update `sys_role`
     <set>
-      <if test="record.roleId != null">
-        role_id = #{record.roleId,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -215,7 +215,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update `sys_role`
-    set role_id = #{record.roleId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       sequence = #{record.sequence,jdbcType=INTEGER},
       status = #{record.status,jdbcType=INTEGER},
@@ -256,7 +256,7 @@
         modified_at = #{modifiedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where role_id = #{roleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="demo.domain.model.entity.SysRole">
     update `sys_role`
@@ -268,6 +268,6 @@
       operator = #{operator,jdbcType=INTEGER},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       modified_at = #{modifiedAt,jdbcType=TIMESTAMP}
-    where role_id = #{roleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

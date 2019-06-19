@@ -2,12 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="demo.domain.dal.mapper.original.SysUserMapper">
   <resultMap id="BaseResultMap" type="demo.domain.model.entity.SysUser">
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="password_salt" jdbcType="VARCHAR" property="passwordSalt" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
     <result column="mobile_number" jdbcType="VARCHAR" property="mobileNumber" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="dept_id" jdbcType="INTEGER" property="deptId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, username, real_name, mobile_number, email, password, dept_id, status, remark, 
-    operate_ip, operator, created_at, modified_at
+    id, username, password, password_salt, real_name, mobile_number, email, dept_id, 
+    status, remark, operate_ip, operator, created_at, modified_at
   </sql>
   <select id="selectByExample" parameterType="demo.domain.model.entity.SysUserExample" resultMap="BaseResultMap">
     select
@@ -96,11 +97,11 @@
     select 
     <include refid="Base_Column_List" />
     from `sys_user`
-    where user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from `sys_user`
-    where user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="demo.domain.model.entity.SysUserExample">
     delete from `sys_user`
@@ -109,28 +110,34 @@
     </if>
   </delete>
   <insert id="insert" parameterType="demo.domain.model.entity.SysUser">
-    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into `sys_user` (username, real_name, mobile_number, 
-      email, password, dept_id, 
-      status, remark, operate_ip, 
-      operator, created_at, modified_at
-      )
-    values (#{username,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{mobileNumber,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{operateIp,jdbcType=VARCHAR}, 
-      #{operator,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{modifiedAt,jdbcType=TIMESTAMP}
-      )
+    insert into `sys_user` (username, password, password_salt, 
+      real_name, mobile_number, email, 
+      dept_id, status, remark, 
+      operate_ip, operator, created_at, 
+      modified_at)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{passwordSalt,jdbcType=VARCHAR}, 
+      #{realName,jdbcType=VARCHAR}, #{mobileNumber,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{operateIp,jdbcType=VARCHAR}, #{operator,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{modifiedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="demo.domain.model.entity.SysUser">
-    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into `sys_user`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="username != null">
         username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="passwordSalt != null">
+        password_salt,
       </if>
       <if test="realName != null">
         real_name,
@@ -140,9 +147,6 @@
       </if>
       <if test="email != null">
         email,
-      </if>
-      <if test="password != null">
-        password,
       </if>
       <if test="deptId != null">
         dept_id,
@@ -170,6 +174,12 @@
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
       </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordSalt != null">
+        #{passwordSalt,jdbcType=VARCHAR},
+      </if>
       <if test="realName != null">
         #{realName,jdbcType=VARCHAR},
       </if>
@@ -178,9 +188,6 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
       </if>
       <if test="deptId != null">
         #{deptId,jdbcType=INTEGER},
@@ -214,11 +221,17 @@
   <update id="updateByExampleSelective" parameterType="map">
     update `sys_user`
     <set>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.username != null">
         username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwordSalt != null">
+        password_salt = #{record.passwordSalt,jdbcType=VARCHAR},
       </if>
       <if test="record.realName != null">
         real_name = #{record.realName,jdbcType=VARCHAR},
@@ -228,9 +241,6 @@
       </if>
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
-      </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
       </if>
       <if test="record.deptId != null">
         dept_id = #{record.deptId,jdbcType=INTEGER},
@@ -260,12 +270,13 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update `sys_user`
-    set user_id = #{record.userId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=INTEGER},
       username = #{record.username,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      password_salt = #{record.passwordSalt,jdbcType=VARCHAR},
       real_name = #{record.realName,jdbcType=VARCHAR},
       mobile_number = #{record.mobileNumber,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
       dept_id = #{record.deptId,jdbcType=INTEGER},
       status = #{record.status,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -283,6 +294,12 @@
       <if test="username != null">
         username = #{username,jdbcType=VARCHAR},
       </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordSalt != null">
+        password_salt = #{passwordSalt,jdbcType=VARCHAR},
+      </if>
       <if test="realName != null">
         real_name = #{realName,jdbcType=VARCHAR},
       </if>
@@ -291,9 +308,6 @@
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
       </if>
       <if test="deptId != null">
         dept_id = #{deptId,jdbcType=INTEGER},
@@ -317,15 +331,16 @@
         modified_at = #{modifiedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="demo.domain.model.entity.SysUser">
     update `sys_user`
     set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      password_salt = #{passwordSalt,jdbcType=VARCHAR},
       real_name = #{realName,jdbcType=VARCHAR},
       mobile_number = #{mobileNumber,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
       dept_id = #{deptId,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
@@ -333,6 +348,6 @@
       operator = #{operator,jdbcType=INTEGER},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       modified_at = #{modifiedAt,jdbcType=TIMESTAMP}
-    where user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

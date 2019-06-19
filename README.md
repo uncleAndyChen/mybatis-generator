@@ -9,19 +9,28 @@
 
 作为团队规范的制定者，需要综合考虑各个方面的因素，之前我在面对这个问题的时候，考虑到数据库的每一张表都会对应一个 POJO，如果表字段是下划线命名法，POJO 也是，这就导致了同样是 java 类的命名规范的不一致，在写代码的时候很别扭。
 
-现在如果有一个方案，在既保持数据库表与字段采用下划线命名法的同时，对应 POJO 又是驼峰命名法，这样既可以兼顾数据库的业界范围，又可以兼顾 Java 开发的业界范围，这才是完美的解决方案。
+现在如果有一个方案，在既保持数据库表与字段采用下划线命名法的同时，对应 POJO 又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范，这才是完美的解决方案。
 
-近期会去找这样的方案，敬请期待。
+请继续往下看。
 
-## 2019-06-18
+## 解决方案
+更新时间：2019-06-18
+
 针对数据库字段使用下划线命名法，生成相应实体时，使用 java 普遍使用的驼峰命名法的配置，将 create-table-property 项目的 application.yml 的配置 `flagUseActualColumnNames` 改为 false：
 ```
   # 是否使用原始字段名
   flagUseActualColumnNames: false
 ```
 
-这样，还需要在 mybatis-config.xml 做相应配置：
+如果设置为 true，会生成如下属性：
+```xml
+<property name="useActualColumnNames" value="true"/>
 ```
+
+设置为 false 则不会生成该属性，没有显示指定该属性值时，该属性默认为 false。MyBatis Generator 默认会把下划线命名法转换成驼峰命名法。
+
+只是，以上配置，需要配合 MyBatis 的 `mapUnderscoreToCamelCase` 配置属性，需要将其设置为 true，在文件 `mybatis-config.xml` 中配置：
+```xml
 <configuration>
     <settings>
         <!-- 开启驼峰映射 ，为自定义的SQL语句服务-->
@@ -52,7 +61,7 @@
 ## 建议在实际工作中的运行方式 
 cmd窗口运行jar文件，可以直接用本项目根目录下的两个jar文件和配置文件，稍作修改应该就可以用了。
 
-- 下MBG的jar包，[传送门](https://github.com/mybatis/generator/releases)，解压，找到`mybatis-generator-1.3.7.jar`备用。
+- 下载MBG的jar包，[传送门](https://github.com/mybatis/generator/releases)，解压，找到`mybatis-generator-1.3.7.jar`备用。
 - 将本模块生成jar文件，生成的jar文件名`mybatis-generator-enhance.jar`。
 - 将两个jar文件以及配置文件放到model与dal项目所在的目录下，在 cmd 窗口执行：
 ```
@@ -65,12 +74,14 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 1. 本文中用到的MBG配置可以作为一个标准配置的参考。
 1. spring boot 2.1.1 获取 application.yml 配置信息，项目【create-table-property】是一个很好的参考。
 1. 通过MBG如何生成dal与model项目。
-    - 生成的代码，绝大部分可直接使用，比如简单的增、删、改、查。
+    - 生成的代码，绝大部分可直接使用，实现比如简单的：增、删、改、查。
     - 对应数据库表的实体类，一张表一个实体类，可用于在各层传递基于表数据的业务数据。
 1. 通过 IDEA 管理多项目。
     - 获取项目源码，用 IDEA 导入的时候，指向根目录的 pom.xml 即可。
 
 ### 更新记录
+- 2019-06-18
+    - 实现：在既保持数据库表与字段采用下划线命名法的同时，对应 POJO 又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范。
 - 2018-12-12
     - 11号的修改，仅在 MySQL 5.7.x 下测试通过。在 MySQL 8.0.11 下，由于驱动版本低导致连接数据库失败，所以，改回支持最新版的 8.x。
     - 增加在 MySQL 5.7.x 下运行该如何操作的说明，请查看[MBG扩展类](https://github.com/uncleAndyChen/mybatis-generator/tree/master/mybatis-generator-enhance)。总体来说，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.jdbc.Driver`改为`com.mysql.cj.jdbc.Driver`了。
@@ -179,6 +190,7 @@ MBG需要的配置文件比较全面的，在工作中实际用到的文件内�
         <!--数据库链接地址账号密码-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.0.130:3306/mbg?useUnivalue=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;failOverReadOnly=false"
                         userId="root" password="root">
+                        <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>

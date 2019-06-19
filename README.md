@@ -1,22 +1,24 @@
 # 说明
 本项目最初想要解决数据库表名、字段名的命名法与 java 的类、属性命名法不一致带来的一系列问题。
+> 当然，本项目的 MBG 扩展类还做了一些事情，比如方便分表时做表名替换，更详细的，请看下面相关描述。
 
 曾尝试将数据库表名、字段名也采用驼峰命名法。
 
 现在已经改成：
-- 数据库表名、字段名保持下划线命名法.
-- 使用本项目的 MyBatis Generator 增加插件生成 mapper，生成的 java POJO 保持驼峰命名法。
-- 查询数据库的 sql 语句保留原生的下划线。
-- 做到了两者命名法不一致的完善兼顾方案。
+- 数据库表名、字段名保持下划线命名法。
+- MBG 配合本项目的 MBG 扩展类生成 mapper，对应每一张表的 POJO 保持驼峰命名法。
+- 查询数据库的 sql 语句保留原生下划线。
+- 做到了两者命名法不一致的完美兼顾。
 
-已添加查询示例，不过仅仅是查询示例，没有考虑到项目架构的合理性。实际项目不会在 web 层直接调用 dal 层，会加业务层和接口层。
+已添加查询示例，不过仅仅是查询示例，没有考虑到项目架构的合理性。实际项目不会在 web 层直接调用 dal 层，实际项目会有业务层和接口层。
 
 # 运行示例
-- 安装 MySQL，执行 `boot-create-table-property/resources/schema.sql`
+- 安装 MySQL，执行 `boot-create-table-property/resources/schema.sql` 脚本。
 - 修改 `boot-create-table-property/resources/application.yml` 中的数据库连接参数。
-- 运行启动项目：`boot-create-table-property`
+- 运行启动项目：`boot-create-table-property`。
 - 访问：http://localhost:90/getSysDeptList
 - 如果看到初始化的部门信息，则表示运行成功。
+![](./boot-create-table-property/MBG.png)
 
 # 自行测试
 - 添加、修改表结构。
@@ -44,7 +46,7 @@
 ## 解决方案
 更新时间：2019-06-18
 
-针对数据库字段使用下划线命名法，生成相应实体时，使用 java 普遍使用的驼峰命名法的配置，将 create-table-property 项目的 application.yml 的配置 `flagUseActualColumnNames` 改为 false：
+针对数据库字段使用下划线命名法，生成相应实体时，使用 java 普遍使用的驼峰命名法的配置，将 boot-create-table-property 项目的 application.yml 的配置 `flagUseActualColumnNames` 改为 false：
 ```
   # 是否使用原始字段名
   flagUseActualColumnNames: false
@@ -70,10 +72,10 @@
 ```
 
 # MyBatis Generator (MBG)，写扩展类，以适应 MySQL 大小写敏感配置的各种情况、适应分表时动态替换表名
-## 生成表属性
+## 生成表配置信息
 两种方式
-1. `create-table-property` 工程采用 spring boot v2.1.1 创建，可直接运行，使用 tomcat 的默认端口8080，运行之后，访问：`http://localhost:8080/getTableProperties`
-    ![](./create-table-property/mbg-demo.png)
+1. `boot-create-table-property` 工程采用 spring boot v2.1.5 创建，可直接运行，运行之后，访问：`http://localhost:90/getTableProperties`
+    ![](./boot-create-table-property/mbg-demo.png)
 1. 运行测试`WithApplicationContextTest.getTablePropertiesTest`，从控制台查看。
 
 ## 项目地址
@@ -84,7 +86,7 @@
 
 ## 子项目
 - MBG扩展类：https://github.com/uncleAndyChen/mybatis-generator/tree/master/mybatis-generator-enhance
-- 生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator/tree/master/create-table-property
+- 生成MBG表配置内容：https://github.com/uncleAndyChen/mybatis-generator/tree/master/boot-create-table-property
 
 ## 建议在实际工作中的运行方式 
 cmd窗口运行jar文件，可以直接用本项目根目录下的两个jar文件和配置文件，稍作修改应该就可以用了。
@@ -100,7 +102,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ### 通过本项目，可以学到的知识点
 1. 可以理解使用MBG的大致流程。
 1. 本文中用到的MBG配置可以作为一个标准配置的参考。
-1. spring boot 2.1.1 获取 application.yml 配置信息，项目【create-table-property】是一个很好的参考。
+1. spring boot 2.1.5 获取 application.yml 配置信息，项目【boot-create-table-property】是一个很好的参考。
 1. 通过MBG如何生成dal与model项目。
     - 生成的代码，绝大部分可直接使用，实现比如简单的：增、删、改、查。
     - 对应数据库表的实体类，一张表一个实体类，可用于在各层传递基于表数据的业务数据。
@@ -169,7 +171,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ## 适用场景
 最终目标：MBG 生成的xml文件中的sql脚本的表名，保持与对应表名在建表时的大小写一致，保持大小写敏感（表名可在MBG需要的配置文件中配置，以该配置为准）。这样可以适应以上`lower_case_table_names`的三种配置值。
 
-**为了达到以上目标，[运行生成表配置内容的项目](https://github.com/uncleAndyChen/mybatis-generator/tree/master/create-table-property)，一定要连接参数`lower_case_table_names`配置为0或者2的数据库服务器**，并且是配置为0或者2之后才创建的数据表，否则，生成的表配置内容的表名，是以全部小写为基准的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时连接的数据库服务器的`lower_case_table_names`配置值，对生成结果没有影响。
+**为了达到以上目标，[运行生成表配置内容的项目](https://github.com/uncleAndyChen/mybatis-generator/tree/master/boot-create-table-property)，一定要连接参数`lower_case_table_names`配置为0或者2的数据库服务器**，并且是配置为0或者2之后才创建的数据表，否则，生成的表配置内容的表名，是以全部小写为基准的，并非驼峰式命名法。表配置内容生成好之后，重新生成 mapper 时连接的数据库服务器的`lower_case_table_names`配置值，对生成结果没有影响。
 
 ### 适用场景一
 1. 其中有数据库服务器被设置成大小写不敏感（比如阿里云的云数据库，截至目前2018年12月9号，还不支持配置成大小写敏感），即 `lower_case_table_names=1`，且该参数不能修改。
@@ -201,7 +203,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ## 生成表配置信息的 Java 工具类
 MBG 基于一个 xml 配置文件，在这个配置文件里，有跟表相关的配置，为了达到我的需求，需要一张表对应一行配置信息，所以，我写了一个类来自动生成，这样，在增减表，或者别的项目里面，可以简单的运行这个类来生成，减少手工劳动。
 
-更详细的，请看：https://github.com/uncleAndyChen/mybatis-generator/tree/master/create-table-property
+更详细的，请看：https://github.com/uncleAndyChen/mybatis-generator/tree/master/boot-create-table-property
 
 MBG需要的配置文件比较全面的，在工作中实际用到的文件内容如下：
 ```xml

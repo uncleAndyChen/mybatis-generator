@@ -260,3 +260,7 @@ Column userId, specified as an identity column in table user, does not exist in 
 意思是，在多个库里都存在 user 表，而其中有三个库中的 user 表不存在 userId 这个字段。
 
 所以，在作业务表设计的时候，最好给所有表名加上能区别业务的前缀，这样可以有效避免与其它库的表名冲突，这样做不光是为了适应 MBG，在做业务开发的时候同样会带来好处。在做类设计的时候，适当的添加前缀或者后缀，也能让人一下子知道类的作用，这需要在实际工作中才能体会到。
+
+当然，针对 MBG 的这个问题，在MBG配置文件的 `jdbcConnection` 项下添加：`<property name="nullCatalogMeansCurrent" value="true"/>`可以解决（注：本文中的配置示例已添加）。
+
+也可以参考：[解决 mybatis generator 使用新版 mysql 驱动 8.0 版本时会生成用户下多个库里的表的问题](https://www.lovesofttech.com/general/experience/#%E8%A7%A3%E5%86%B3-mybatis-generator-%E4%BD%BF%E7%94%A8%E6%96%B0%E7%89%88-mysql-%E9%A9%B1%E5%8A%A8-8-0-%E7%89%88%E6%9C%AC%E6%97%B6%E4%BC%9A%E7%94%9F%E6%88%90%E7%94%A8%E6%88%B7%E4%B8%8B%E5%A4%9A%E4%B8%AA%E5%BA%93%E9%87%8C%E7%9A%84%E8%A1%A8%E7%9A%84%E9%97%AE%E9%A2%98)

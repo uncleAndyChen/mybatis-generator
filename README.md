@@ -111,6 +111,7 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 
 ### 更新记录
 - 2019-06-19
+    - 升级各依赖到最新，jdk 版本由之前的 1.8 改为 11，如果你用的是 1.8，请修改 pom.xml 文件内的 `ava.version` 为 1.8：`<java.version>1.8</java.version>`。
     - 数据库表名、字段名应用下划线命名法，MBG 生成的 POJO 保留驼峰命名法的实践。
         - 将之前的示例数据库的命名方式由驼峰命名法改为下划线命名法。见 `boot-create-table-property/resources/schema.sql`
         - 请参见项目：`boot-create-table-property`

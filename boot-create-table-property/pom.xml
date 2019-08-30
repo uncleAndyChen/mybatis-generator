@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.mybatis.generator</groupId>
-    <artifactId>create-table-property</artifactId>
+    <artifactId>boot-create-table-property</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
     <name>create-table-property</name>

@@ -6,9 +6,8 @@
 
 现在已经改成：
 - 数据库表名、字段名保持下划线命名法。
-- MBG 配合本项目的 MBG 扩展类生成 mapper，对应每一张表的 POJO 保持驼峰命名法。
-- 查询数据库的 sql 语句保留原生下划线。
-- 做到了两者命名法不一致的完美兼顾。
+- 针对自定义 SQL 查询结果，对应的自定义 POJO 保持驼峰命名法，查询数据库的 SQL 语句保留原生下划线，并且不用写 resultMap。
+- 做到了 Java 规范与 MySQL 命名规范不一致的完美兼顾。
 
 已添加查询示例，不过仅仅是查询示例，没有考虑到项目架构的合理性。实际项目不会在 web 层直接调用 dal 层，实际项目会有业务层和接口层。
 
@@ -63,9 +62,10 @@
 ```xml
 <configuration>
     <settings>
-        <!-- 开启驼峰映射 ，为自定义的SQL语句服务-->
-        <!-- 设置启用数据库字段下划线映射到java对象的驼峰式命名属性，默认为false-->
-        <!-- 即从经典数据库列名 A_COLUMN 到经典Java 属性名 aColumn 的类似映射 -->
+        <!-- 开启驼峰映射，为自定义的SQL语句服务-->
+        <!-- 设置启用数据库字段下划线映射到 java POJO 的驼峰式命名属性，默认值为 false-->
+        <!-- 即从经典数据库列名 a_column 到经典 Java 属性名 aColumn 的类似映射 -->
+        <!-- 配置后无需写 resultMap 将数据库字段和实体类属性对应 -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 </configuration>

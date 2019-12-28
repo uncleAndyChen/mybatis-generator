@@ -11,6 +11,8 @@
 
 已添加查询示例，不过仅仅是查询示例，没有考虑到项目架构的合理性。实际项目不会在 web 层直接调用 dal 层，实际项目会有业务层和接口层。
 
+有关 MySQL 命名规范，请参考：[MyBatis 项目中，有关 MySQL 命名规范，用驼峰命名法与下划线命名法的取舍](https://www.lovesofttech.com/mybatis/mysqlNaming.html)，请关注这篇文章提到的 mapUnderscoreToCamelCase 配置项。
+
 # 运行示例
 - 安装 MySQL，执行 `boot-create-table-property/resources/schema.sql` 脚本。
 - 修改 `boot-create-table-property/resources/application.yml` 中的数据库连接参数。

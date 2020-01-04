@@ -38,6 +38,15 @@ public class CreateTablePropertyService {
             rs = statement.executeQuery(getPrimaryKeySql);
 
             rs.next(); //只有一条记录，因为只定义了一个主键，如果有多个主键（联合主键），请根据情况调整此处代码。
+
+            // 没定义主键，则没有记录
+            if (rs.getRow() == 0) {
+                String errInfo = String.format("\n--------\n%s.%s，请先定义主键再生成表属性。\n--------\n", databaseConfig.getSchemaName(), tableName);
+                System.out.println(errInfo);
+                sb.append(errInfo);
+                return sb;
+            }
+
             primaryKey = rs.getString("column_name");
             rs.close();
 

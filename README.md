@@ -1,7 +1,12 @@
-# 说明
-本项目最初想要解决数据库表名、字段名的命名法与 java 的类、属性命名法不一致带来的一系列问题。
-> 当然，本项目的 MBG 扩展类还做了一些其他事情，比如方便分表时做表名替换，更详细的，请参考: [MBG 扩展类 module](./mybatis-generator-enhance)
+# 需求场景
+- 数据库表名和字段名使用驼峰式命名法，解决在生成的 sql 语句中字段名全部变为小写的问题。
+> 虽然我不推荐这种命名方式，但是如果你要坚持，好吧，这个项目能帮到你~~
+- 分表时做表名替换，实现方式，请参考: [MBG 插件 module](./mybatis-generator-enhance)。
 
+# 基于 MyBatis 的分库分表项目
+[mybatis-plugin-shard](https://github.com/uncleAndyChen/mybatis-plugin-shard)，用到了本项目的 [MBG 插件 module](https://github.com/uncleAndyChen/mybatis-generator/tree/master/mybatis-generator-enhance)
+
+# 说明
 曾尝试将数据库表名、字段名也采用驼峰命名法。
 
 现在已经改成：
@@ -111,45 +116,6 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 1. 通过 IDEA 管理多项目。
     - 获取项目源码，用 IDEA 导入的时候，指向根目录的 pom.xml 即可。
 
-### 更新记录
-- 2019-06-19
-    - 升级各依赖到最新，jdk 版本由之前的 1.8 改为 11，如果你用的是 1.8，请修改 pom.xml 文件内的 `<java.version>11</java.version>` 为 `<java.version>1.8</java.version>`。
-    - 数据库表名、字段名应用下划线命名法，MBG 生成的 POJO 保留驼峰命名法的实践。
-        - 将之前的示例数据库的命名方式由驼峰命名法改为下划线命名法。见 `boot-create-table-property/resources/schema.sql`
-        - 请参见项目：`boot-create-table-property`
-        - 添加数据库的 PowerDesigner 文档，见 `boot-create-table-property/resources/mbg.pdm`
-        - 数据库查询示例：`demo.domain.dal.service.SysDeptDalService.getSysDeptList()`
-- 2019-06-18
-    - 实现：在既保持数据库表与字段采用下划线命名法的同时，对应 POJO 又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范。
-- 2018-12-12
-    - 11号的修改，仅在 MySQL 5.7.x 下测试通过。在 MySQL 8.0.11 下，由于驱动版本低导致连接数据库失败，所以，改回支持最新版的 8.x。
-    - 增加在 MySQL 5.7.x 下运行该如何操作的说明，请查看[MBG扩展类](https://github.com/uncleAndyChen/mybatis-generator/tree/master/mybatis-generator-enhance)。总体来说，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.jdbc.Driver`改为`com.mysql.cj.jdbc.Driver`了。
-    - 将支持 MySQL 5.7.x 的 `mybatis-generator-enhance.jar` 改名为 `mybatis-generator-enhance-mysql-v5.7.x.jar`，同时增加支持 MySQL 8.x 的包 `mybatis-generator-enhance-mysql-v8.x.jar`。
-- 2018-12-11
-    - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。
-    - 数据库驱动`mysql-connector-java 8.0.13`不变的情况下，数据库由8.x换到5.7.x之后，现出以下两类错误：
-        - 报错
-        ```
-        Cannot obtain primary key information from the database, generated objects may be incomplete
-        ...
-        ```
-        - 生成的 mapper 缺少以下接口：
-        ```
-        deleteByPrimaryKey
-        selectByPrimaryKey
-        updateByPrimaryKeySelective
-        updateByPrimaryKey
-        ```
-        - **解决**：将`mysql-connector-java`由高版本的8.X换成低版本的5.1.x。高版本8.x的驱动连接8.x数据库是正常的，但是换成低版本的数据库5.7.x版本，就会有问题。[参考](https://blog.csdn.net/jpf254/article/details/79571396)
-- 2018-12-09
-    - 将 MBG 版本由 1.3.5 升级至当前最新版 1.3.7。
-    - 将 mybatis 由 3.4.1 升级至 3.4.6。
-    - 修改和完善本说明文档。
-    - 重构生成表配置的类：`CreateTablePropertyService`，优化完善了相关代码、添加数据库的各种配置信息，更易于使用和维护。
-    - 将生成表配置的类`CreateTablePropertyService`单独提取至一个独立的项目，以尽可能少的修改官方项目`mybatis-generator-core`源码。
-    - 重命名model与dal模块名，更易于理解。
-    - 在根目录添加 pom.xml，方便 IDEA 通过该文件直接导入。
-
 ## 先了解一下 lower_case_table_names 参数 
 官方文档：[Identifier Case Sensitivity](https://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html)
 
@@ -190,18 +156,6 @@ java -Dfile.encoding=UTF-8 -cp mybatis-generator-1.3.7.jar;mybatis-generator-enh
 ### 适用场景二
 - 分表，利用MyBatis插件，根据业务规则，对表名进行动态替换。
 - 如`erpTrade`表分成了120个表，那么在某一次业务操作中，需要将`erpTrade`替换成`erpTrade_xyz`，其中`xyz`为从`001`到`120`的其中一个数字，则需要将MBG生成的xml里sql脚本中的表名用 \`（左上角数字键1左边、Tab键上边、Esc键下边的键）引起来。
-> 将会分享我的基于 MyBatis 插件分库分表项目。
-
-# 需求场景
-1. 首先，我项目的 Java 代码规范是变量命名应用驼峰式命名法（Camel-Case）。数据库表名及字段名，则用下划线命名法（即用下划线分隔不同单词）。
-1. 我用 MBG 生成的代码，通过配置可以将下划线去掉，同时将下划线后的第一个字母转为大写，这样是符合驼峰式命名法的。
-1. 但是，问题来了。我们项目前后端分离，前端调用 Restful Api，在传递的参数中难免需要以表名来定义对象，而以字段名作为对象的属性来传递参数，而 Java 写的 Api 在接收参数时，是用 Pojo 来跟前端传的参数匹配的。
-1. 这样有两个问题，前端在传参数的时候需要将表名和字段名由下划线命名法转为驼峰式命名法，Java 代码也以同样的方式定义对应的类名以及属性字段，在这个过程中，容易出错，相对直接 copy 表名及字段名，需要做额外的工作，而且前后端都有。
-1. 如果数据库表名和字段名本身就是驼峰式命名法的话，写代码的时候直接 copy 表名或字段名，这样既不容易出错，还能节省时间。说干就干，改！表名及字段名遵循驼峰式命名法。
-1. 这样做的目的无非是让大家能偷偷懒，还减少出错的概率，同时也轻松的达到了统一代码规范的目的。
-1. 在windows环境下，如果遇到`lower_case_table_names=1`或者该参数未配置（未配置的时候默认为1），运行MBG，生成的sql脚本，全是小写，需要花费额外时间来解决环境问题。
-1. 为了一劳永逸，有了本文和对应的项目。
-1. 随着业务发展，到了需要分库分表的时候，本文所解决的问题，更是不可或缺。
 
 ## 生成表配置信息的 Java 工具类
 MBG 基于一个 xml 配置文件，在这个配置文件里，有跟表相关的配置，为了达到我的需求，需要一张表对应一行配置信息，所以，我写了一个类来自动生成，这样，在增减表，或者别的项目里面，可以简单的运行这个类来生成，减少手工劳动。
@@ -273,7 +227,7 @@ MBG需要的配置文件比较全面的，在工作中实际用到的文件内�
 1. 当表结构发生变化时，需要重新运行 MBG 生成新的代码，所以，生成的代码，不能有修改行为，否则下次重新生成后，改过的代码会被覆盖。
 1. 重新生成时，*Mapper.xml 文件会被追加内容，而不是重新生成该文件，所以是有问题的，应对方法就是每次重新生成之前将旧的文件删除。
 1. 下面的脚本在window下测试通过，删除脚本和生成脚本一起执行即可。重新生成之后，如果文件内容跟原来一致，文件会被认为无修改。
-1. 需要注意的是，如果执行删除全部文件操作，需要保证所有表的配置保持与数据库同步，表配置相当重要，有则生成。
+1. 需要注意的是，如果执行删除全部文件操作，需要保证所有表的配置保持与数据库同步，表配置相当重要。
 ```
 # 注意：*Mapper.xml 文件，每次重新生成都需要先删除，否则部分内容会重复生成，导致错误，版本1.3.5以及现在最新版1.3.7均有此问题。
 # 执行之前请确保文件路径是正确的。
@@ -309,3 +263,42 @@ Column userId, specified as an identity column in table user, does not exist in 
 - 解决方案二：在 table 配置项添加 catalog 属性，如：`<table catalog="mbg" tableName="sys_dept" domainObjectName="SysDept"><generatedKey identity="true" type="post" column="id" sqlStatement="Mysql"/><columnOverride column="status" javaType="java.lang.Integer" jdbcType="INTEGER" /></table>`
 
 更详细的，请参考：[解决 mybatis generator 使用新版 mysql 驱动 8.0 版本时会生成用户下多个库里的表的问题](https://www.lovesofttech.com/mybatis/MBGForMySQL8.html)
+
+### 更新记录
+- 2019-06-19
+    - 升级各依赖到最新，jdk 版本由之前的 1.8 改为 11，如果你用的是 1.8，请修改 pom.xml 文件内的 `<java.version>11</java.version>` 为 `<java.version>1.8</java.version>`。
+    - 数据库表名、字段名应用下划线命名法，MBG 生成的 POJO 保留驼峰命名法的实践。
+        - 将之前的示例数据库的命名方式由驼峰命名法改为下划线命名法。见 `boot-create-table-property/resources/schema.sql`
+        - 请参见项目：`boot-create-table-property`
+        - 添加数据库的 PowerDesigner 文档，见 `boot-create-table-property/resources/mbg.pdm`
+        - 数据库查询示例：`demo.domain.dal.service.SysDeptDalService.getSysDeptList()`
+- 2019-06-18
+    - 实现：在既保持数据库表与字段采用下划线命名法的同时，对应 POJO 又是驼峰命名法，这样既可以兼顾数据库的业界规范，又可以兼顾 Java 开发的业界规范。
+- 2018-12-12
+    - 11号的修改，仅在 MySQL 5.7.x 下测试通过。在 MySQL 8.0.11 下，由于驱动版本低导致连接数据库失败，所以，改回支持最新版的 8.x。
+    - 增加在 MySQL 5.7.x 下运行该如何操作的说明，请查看[MBG扩展类](https://github.com/uncleAndyChen/mybatis-generator/tree/master/mybatis-generator-enhance)。总体来说，仅需要修改驱动版本和驱动名即可。8.x 驱动名，由`com.mysql.jdbc.Driver`改为`com.mysql.cj.jdbc.Driver`了。
+    - 将支持 MySQL 5.7.x 的 `mybatis-generator-enhance.jar` 改名为 `mybatis-generator-enhance-mysql-v5.7.x.jar`，同时增加支持 MySQL 8.x 的包 `mybatis-generator-enhance-mysql-v8.x.jar`。
+- 2018-12-11
+    - 重构，将之前直接修改源码的方式，改为通过扩展类来实现自己需要的业务，相当于是一个新项目了。
+    - 数据库驱动`mysql-connector-java 8.0.13`不变的情况下，数据库由8.x换到5.7.x之后，现出以下两类错误：
+        - 报错
+        ```
+        Cannot obtain primary key information from the database, generated objects may be incomplete
+        ...
+        ```
+        - 生成的 mapper 缺少以下接口：
+        ```
+        deleteByPrimaryKey
+        selectByPrimaryKey
+        updateByPrimaryKeySelective
+        updateByPrimaryKey
+        ```
+        - **解决**：将`mysql-connector-java`由高版本的8.X换成低版本的5.1.x。高版本8.x的驱动连接8.x数据库是正常的，但是换成低版本的数据库5.7.x版本，就会有问题。[参考](https://blog.csdn.net/jpf254/article/details/79571396)
+- 2018-12-09
+    - 将 MBG 版本由 1.3.5 升级至当前最新版 1.3.7。
+    - 将 mybatis 由 3.4.1 升级至 3.4.6。
+    - 修改和完善本说明文档。
+    - 重构生成表配置的类：`CreateTablePropertyService`，优化完善了相关代码、添加数据库的各种配置信息，更易于使用和维护。
+    - 将生成表配置的类`CreateTablePropertyService`单独提取至一个独立的项目，以尽可能少的修改官方项目`mybatis-generator-core`源码。
+    - 重命名model与dal模块名，更易于理解。
+    - 在根目录添加 pom.xml，方便 IDEA 通过该文件直接导入。

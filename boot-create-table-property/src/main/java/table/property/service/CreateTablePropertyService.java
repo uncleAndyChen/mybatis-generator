@@ -13,7 +13,7 @@ public class CreateTablePropertyService {
     private static Statement statement;
 
     public static StringBuilder getTableProperties(DatabaseConfig databaseConfig) throws Exception {
-        String getPrimaryKeySqlFormat = "select column_name from information_schema.key_column_usage where table_schema='" + databaseConfig.getSchemaName() + "' and table_name='%s';";
+        String getPrimaryKeySqlFormat = "select column_name from information_schema.key_column_usage where table_schema='" + databaseConfig.getSchemaName() + "' and constraint_name='PRIMARY' and table_name='%s';";
         String getTinyintKeySqlFormat = "show columns from " + databaseConfig.getSchemaName() + ".%s";
         String getPrimaryKeySql;
         String getTinyintKeySql;
